@@ -1,0 +1,147 @@
+<UserControl 
+	xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+	xmlns:vm="using:HedgeDev.Editor.Material.ViewModels"
+	xmlns:view="using:HedgeDev.Editor.Material.Views"
+	xmlns:dd="using:HedgeDev.Editor.Material.Views.DesignData"
+    x:Class="HedgeDev.Editor.Material.Views.Editors.UcMatEditTextures"
+	x:DataType="vm:TextureSetViewModel">
+
+	<Design.DataContext>
+		<dd:TextureSet/>
+	</Design.DataContext>
+
+	<Design.DesignStyle>
+		<Style Selector="Expander">
+			<Setter Property="IsExpanded" Value="True"/>
+		</Style>
+	</Design.DesignStyle>
+
+	<UserControl.Styles>
+		<StyleInclude Source="avares://HedgeMatEdit/Views/Editors/EditorStyles.axaml"/>
+	</UserControl.Styles>
+
+	<Expander Header="Texture Parameters">
+
+		<Grid ColumnDefinitions="3.5*,5*,2*,3*,3*">
+
+			<Grid.RowDefinitions>
+				<RowDefinition Height="auto"/>
+				<RowDefinition Height="*" MinHeight="20"/>
+				<RowDefinition Height="auto"/>
+			</Grid.RowDefinitions>
+
+			<!-- Background -->
+
+			<Border
+				Grid.ColumnSpan="5"
+				Background="{DynamicResource DefaultColor}"
+				CornerRadius="3 3 0 0"/>
+
+			<Border
+				Grid.Row="1" Grid.ColumnSpan="5"
+				Background="{DynamicResource BackgroundColor2}"
+				CornerRadius="0 0 3 3"/>
+
+			<Border
+				Grid.Row="1" Grid.Column="3"
+				Background="{DynamicResource BackgroundColor3}"/>
+
+			<Border
+				Grid.Row="1" Grid.Column="1"
+				Background="{DynamicResource BackgroundColor3}"/>
+
+			<!-- Header -->
+
+			<TextBlock Grid.Column="0" Text="Type"/>
+			<TextBlock Grid.Column="1" Text="Texture filename"/>
+			<TextBlock Grid.Column="2" Text="UV Index"/>
+			<TextBlock Grid.Column="3" Text="Wrapmode U"/>
+			<TextBlock Grid.Column="4" Text="Wrapmode V"/>
+
+			<!-- Textures list -->
+
+			<ItemsControl
+				Grid.Row="1" Grid.ColumnSpan="5"
+				ItemsSource="{Binding Textures}">
+
+				<ItemsControl.ItemTemplate>
+					<DataTemplate DataType="vm:TextureViewModel">
+						<Grid ColumnDefinitions="3.5*,5*,2*,3*,3*" Name="ItemGrid">
+							<Border Grid.ColumnSpan="5" Name="HighlightedBorder"/>
+
+							<DockPanel>
+								<Button
+									DockPanel.Dock="Left"
+									Classes="Red"
+									VerticalContentAlignment="Center"
+									Padding="4"
+									Margin="6"
+									Command="{Binding Remove}">
+									<Button.Content>
+										<Image Height="16" Width="16" Source="avares://J113D.Avalonia/Icons/Trash.png"/>
+									</Button.Content>
+								</Button>
+
+								<view:UndoRedoTextBox
+									Text="{Binding Type, UpdateSourceTrigger=LostFocus}"/>
+							</DockPanel>
+
+							<DockPanel Grid.Column="1">
+
+								<Button
+									DockPanel.Dock="Right"
+									VerticalContentAlignment="Center"
+									Padding="4"
+									Margin="6"
+									Click="OnImageSelect">
+									<Button.Content>
+										<Image Height="16" Width="16" Source="avares://J113D.Avalonia/Icons/OpenFolder.png"/>
+									</Button.Content>
+								</Button>
+								
+								<view:UndoRedoTextBox
+									Text="{Binding PictureName, UpdateSourceTrigger=LostFocus}"/>
+								
+							</DockPanel>
+							
+
+							<view:UndoRedoTextBox
+								Grid.Column="2"
+								TextAlignment="Right"
+								Text="{Binding TexcoordIndex, UpdateSourceTrigger=LostFocus}"/>
+
+							<ComboBox
+								Grid.Column="3"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Stretch"
+								Margin="4 2"
+								ItemsSource="{x:Static vm:TextureViewModel.WrapModes}"
+								SelectedItem="{Binding WrapModeU, Converter={StaticResource EnumConv}}"/>
+
+							<ComboBox
+								Grid.Column="4"
+								HorizontalAlignment="Stretch"
+								VerticalAlignment="Stretch"
+								Margin="4 2"
+								
+								ItemsSource="{x:Static vm:TextureViewModel.WrapModes}"
+								SelectedItem="{Binding WrapModeV, Converter={StaticResource EnumConv}}"/>
+							
+						</Grid>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+
+			<Button
+				Grid.Row="2" Grid.ColumnSpan="5"
+				Classes="Blue"
+				Content="New Texture"
+				Command="{Binding AddNewTexture}"/>
+		</Grid>
+	</Expander>
+
+		</UserControl>

@@ -1,0 +1,1 @@
+﻿global using HEMaterial = SharpNeedle.Framework.HedgehogEngine.Mirage.MaterialData.Material;

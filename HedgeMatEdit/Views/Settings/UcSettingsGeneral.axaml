@@ -1,0 +1,45 @@
+<UserControl 
+	xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:config="using:HedgeDev.Editor.Material.Config"
+	xmlns:enumUtil="using:J113D.Avalonia.Utilities.Enum"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+    x:Class="HedgeDev.Editor.Material.Views.Settings.UcSettingsGeneral"
+	x:DataType="config:SettingsViewModel">
+
+	<StackPanel Grid.Column="2" Spacing="8" Grid.IsSharedSizeScope="True">
+
+		<HeaderedContentControl Header="Theme">
+			<ComboBox
+				PlaceholderText="Dark"
+				MinWidth="150"
+				ItemsSource="{x:Static config:SettingsViewModel.ThemeValues}"
+				SelectedItem="{Binding Theme, Converter={StaticResource EnumConv}}"
+				ToolTip.Tip="Visual display variant of the application"/>
+		</HeaderedContentControl>
+
+		<HeaderedContentControl Header="Font Size">
+			<TextBox
+				Watermark="14"
+				Text="{Binding FontSizeText}"
+				ToolTip.Tip="Font size across the entire application"/>
+		</HeaderedContentControl>
+
+		<HeaderedContentControl Header="Show Integer Parameters">
+			<CheckBox
+				IsChecked="{Binding ShowIntParameters}"
+				ToolTip.Tip="Whether to show integer parameters"/>
+		</HeaderedContentControl>
+
+		<HeaderedContentControl Header="Default Material version">
+			<ComboBox
+				MinWidth="150"
+				ItemsSource="{x:Static config:SettingsViewModel.MaterialVersions}"
+				SelectedItem="{Binding DefaultMaterialVersion, Converter={StaticResource EnumConv}}"
+				ToolTip.Tip="The material version to use when creating a new materials"/>
+		</HeaderedContentControl>
+
+	</StackPanel>
+</UserControl>

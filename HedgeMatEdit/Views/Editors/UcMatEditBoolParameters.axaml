@@ -1,0 +1,105 @@
+<UserControl
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:vmp="using:HedgeDev.Editor.Material.ViewModels.Parameter"
+	xmlns:view="using:HedgeDev.Editor.Material.Views"
+	xmlns:dd="using:HedgeDev.Editor.Material.Views.DesignData"
+	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+	x:Class="HedgeDev.Editor.Material.Views.Editors.UcMatEditBoolParameters"
+	x:DataType="vmp:BoolParametersViewModel">
+
+	<Design.DataContext>
+		<dd:BoolParameters/>
+	</Design.DataContext>
+
+	<Design.DesignStyle>
+		<Style Selector="Expander">
+			<Setter Property="IsExpanded" Value="True"/>
+		</Style>
+	</Design.DesignStyle>
+
+	<UserControl.Styles>
+		<StyleInclude Source="avares://HedgeMatEdit/Views/Editors/EditorStyles.axaml"/>
+	</UserControl.Styles>
+
+	<Expander Header="Boolean Parameters">
+
+		<Grid ColumnDefinitions="3*,4*">
+			
+			<Grid.RowDefinitions>
+				<RowDefinition Height="auto"/>
+				<RowDefinition Height="*" MinHeight="20"/>
+				<RowDefinition Height="auto"/>
+			</Grid.RowDefinitions>
+
+			<!-- Background -->
+
+			<Border
+				Grid.ColumnSpan="5"
+				Background="{DynamicResource DefaultColor}"
+				CornerRadius="3 3 0 0"/>
+
+			<Border
+				Grid.Row="1" Grid.ColumnSpan="2"
+				Background="{DynamicResource BackgroundColor2}"
+				CornerRadius="0 0 3 3"/>
+
+			<!-- Header -->
+
+			<TextBlock Grid.Column="0" Text="Name"/>
+			<TextBlock Grid.Column="1" Text="Toggled"/>
+
+			<!-- Parameter list -->
+
+			<ItemsControl
+				Grid.Row="1" Grid.ColumnSpan="5"
+				ItemsSource="{Binding Parameters}">
+
+				<ItemsControl.ItemTemplate>
+					<DataTemplate DataType="vmp:BoolParameterViewModel">
+						<Grid ColumnDefinitions="3*,4*" Name="ItemGrid">
+							<Border Grid.ColumnSpan="2" Name="HighlightedBorder"/>
+
+							<DockPanel>
+								<Button
+									DockPanel.Dock="Left"
+									Classes="Red"
+									VerticalContentAlignment="Center"
+									Padding="4"
+									Margin="6"
+									Command="{Binding CmdRemove}">
+									<Button.Content>
+										<Image Height="16" Width="16" Source="avares://J113D.Avalonia/Icons/Trash.png"/>
+									</Button.Content>
+								</Button>
+
+								<view:UndoRedoTextBox
+									Text="{Binding Name, UpdateSourceTrigger=LostFocus}"
+									ToolTip.Tip="2Test"/>
+							</DockPanel>
+
+							<CheckBox
+								Grid.Column="1"
+								Classes="Number"
+								IsChecked="{Binding Toggled}"
+								HorizontalAlignment="Center"/>
+							
+						</Grid>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+
+			<Button
+				Grid.Row="2" Grid.ColumnSpan="5"
+				Classes="Blue"
+				Content="New Parameter"
+				Command="{Binding CmdAddNewParameter}"/>
+
+		</Grid>
+
+	</Expander>
+
+
+</UserControl>

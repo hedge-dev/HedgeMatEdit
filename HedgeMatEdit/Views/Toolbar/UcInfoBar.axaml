@@ -1,0 +1,82 @@
+<UserControl 
+	xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:vm="using:HedgeDev.Editor.Material.ViewModels"
+	xmlns:view="using:HedgeDev.Editor.Material.Views"
+	xmlns:wnd="using:HedgeDev.Editor.Material.Views.Windows"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="35"
+    x:Class="HedgeDev.Editor.Material.Views.Toolbar.UcInfoBar">
+
+	<Grid>
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="auto"/>
+		</Grid.ColumnDefinitions>
+		
+		<Border
+			Background="Transparent"
+			Classes.Success="{Binding $parent[wnd:WndMain].MessageType, Converter={x:Static ObjectConverters.Equal}, ConverterParameter={x:Static view:MessageType.Success}}"
+			Classes.Error="{Binding $parent[wnd:WndMain].MessageType, Converter={x:Static ObjectConverters.Equal}, ConverterParameter={x:Static view:MessageType.Error}}"
+			CornerRadius="3"
+			Padding="8 4">
+
+			<Border.Styles>
+				<Style Selector="Border.Success">
+					<Style.Animations>
+						<Animation Duration="0:0:0.2" FillMode="Forward">
+							<KeyFrame Cue="0%">
+								<Setter Property="Background" Value="#c9f0ad"/>
+							</KeyFrame>
+							<KeyFrame Cue="100%">
+								<Setter Property="Background" Value="{StaticResource GreenColor}"/>
+							</KeyFrame>
+						</Animation>
+
+						<Animation Duration="0:0:2" Delay="0:0:2" FillMode="Forward" Easing="QuadraticEaseIn">
+							<KeyFrame Cue="100%">
+								<Setter Property="Background" Value="{StaticResource TransparentGreenColor}"/>
+							</KeyFrame>
+						</Animation>
+					</Style.Animations>
+				</Style>
+
+				<Style Selector="Border.Error">
+					<Style.Animations>
+						<Animation Duration="0:0:0.2" FillMode="Forward">
+							<KeyFrame Cue="0%">
+								<Setter Property="Background" Value="#ffb5be"/>
+							</KeyFrame>
+							<KeyFrame Cue="100%">
+								<Setter Property="Background" Value="{StaticResource RedColor}"/>
+							</KeyFrame>
+						</Animation>
+
+						<Animation Duration="0:0:2" Delay="0:0:2" FillMode="Forward" Easing="QuadraticEaseIn">
+							<KeyFrame Cue="100%">
+								<Setter Property="Background" Value="{StaticResource TransparentRedColor}"/>
+							</KeyFrame>
+						</Animation>
+					</Style.Animations>
+				</Style>
+			</Border.Styles>
+
+			<TextBlock 
+				Text="{Binding $parent[wnd:WndMain].Message}" 
+				FontWeight="SemiBold" 
+				VerticalAlignment="Center"/>
+		</Border>
+
+		<TextBlock
+			Grid.Column="1"
+			x:Name="VersionText"
+			Text="0.0.1"
+			Foreground="{DynamicResource ForegroundColor3}"
+			FontWeight="SemiBold"
+			VerticalAlignment="Center"
+			Margin="4 0"/>
+	</Grid>
+	
+	
+</UserControl>

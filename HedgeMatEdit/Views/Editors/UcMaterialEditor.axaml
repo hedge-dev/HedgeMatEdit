@@ -1,0 +1,79 @@
+<UserControl 
+	xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:vm="using:HedgeDev.Editor.Material.ViewModels"
+	xmlns:view="using:HedgeDev.Editor.Material.Views"
+	xmlns:editor="using:HedgeDev.Editor.Material.Views.Editors"
+	xmlns:enumUtil="using:J113D.Avalonia.Utilities.Enum"
+    mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="400"
+    x:Class="HedgeDev.Editor.Material.Views.Editors.UcMaterialEditor"
+	x:DataType="vm:MainViewModel">
+
+	<Panel
+		DragDrop.AllowDrop="True"
+		DragDrop.DragEnter="OnDragEnter"
+		DragDrop.DragLeave="OnDragLeave"
+		DragDrop.Drop="OnDrop">
+
+		<ScrollViewer 
+			x:Name="ScrollPanel"
+			HorizontalScrollBarVisibility="Disabled" 
+			VerticalScrollBarVisibility="Auto"
+			AllowAutoHide="False"
+			SizeChanged="OnScrollViewerSizeChanged">
+		
+			<StackPanel 
+				Spacing="6">
+			
+				<editor:UcMatEditGeneral
+					DataContext="{Binding Material}"/>
+			
+				<editor:UcMatEditTextures
+					DataContext="{Binding Material.TextureSet}"/>
+
+				<editor:UcMatEditFloatParameters
+					DataContext="{Binding Material.FloatParameters}"/>
+
+				<editor:UcMatEditIntParameters
+					Name="IntParameters"
+					DataContext="{Binding Material.IntParameters}"/>
+
+				<editor:UcMatEditBoolParameters
+					DataContext="{Binding Material.BoolParameters}"/>
+
+				<editor:UcMatEditSCAParameters
+					DataContext="{Binding Material.SCAParameters}"
+					IsVisible="{Binding $parent.DataContext.Material.ShowSCAParameters}"/>
+
+			
+			</StackPanel>
+		
+		</ScrollViewer>
+
+		<Panel Name="DropOverlay" IsVisible="False">
+
+			<Border
+				CornerRadius="3"
+				Opacity="0.2"
+				Background="{DynamicResource HighlightedAccentColor}"/>
+
+			<Border
+				Background="{DynamicResource BackgroundColor4}"
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center"
+				CornerRadius="6">
+				
+				<TextBlock 
+					Text="Drop file to load/import"
+					FontWeight="Bold"
+					Padding="8"/>
+			</Border>
+			
+			
+		</Panel>
+		
+	</Panel>
+	
+</UserControl>

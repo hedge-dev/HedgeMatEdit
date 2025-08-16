@@ -1,0 +1,110 @@
+<j113da:Window
+	xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:converters="using:J113D.Avalonia.Converters"
+	xmlns:j113da="using:J113D.Avalonia.Controls"
+	xmlns:config="using:HedgeDev.Editor.Material.Config"
+	xmlns:settings="using:HedgeDev.Editor.Material.Views.Settings"
+    mc:Ignorable="d" d:DesignWidth="600" d:DesignHeight="300"
+	Width="600" Height="300"
+	x:Class="HedgeDev.Editor.Material.Views.Windows.WndSettings"
+	x:ClassModifier="internal"
+	x:DataType="config:SettingsViewModel"
+    Title="Settings"
+	MinWidth="400"
+	HideMinimizeButton="True"
+	HideRestoreButton="True">
+
+	<Window.Styles>
+		<Style Selector="HeaderedContentControl">
+			<Setter Property="VerticalContentAlignment" Value="Center"/>
+
+			<Setter Property="Template">
+				<ControlTemplate>
+					<Grid>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="auto" SharedSizeGroup="Header"/>
+							<ColumnDefinition Width="*"/>
+						</Grid.ColumnDefinitions>
+
+						<ContentPresenter
+							Name="PART_HeaderPresenter"
+							Content="{TemplateBinding Header}"
+							RecognizesAccessKey="True"
+							ContentTemplate="{TemplateBinding HeaderTemplate}"
+							HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+							VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+							Grid.Column="0"
+							Margin="0 8 8 8"/>
+
+						<ContentPresenter
+							Name="PART_ContentPresenter"
+							ContentTemplate="{TemplateBinding ContentTemplate}"
+							Content="{TemplateBinding Content}"
+							RecognizesAccessKey="True"
+							VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+							HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+							Grid.Column="1" />
+					</Grid>
+				</ControlTemplate>
+			</Setter>
+		</Style>
+
+	</Window.Styles>
+
+	<Border Background="{DynamicResource BackgroundColor1}" Padding="8" CornerRadius="3">
+		<Grid RowDefinitions="*, auto">
+			<Grid Grid.Row="1" ColumnDefinitions="*,auto">
+				<TextBlock Padding="4 0 0 4" Text="@HedgeDev" VerticalAlignment="Bottom" Foreground="{DynamicResource ForegroundColor3}"/>
+				<Button Grid.Column="1" Content="Close" MinWidth="80" Click="OnCloseClicked"/>
+			</Grid>
+			
+			<Grid ColumnDefinitions="150, 8, *">
+
+				<ListBox x:Name="TabList" Background="{DynamicResource BackgroundColor3}" BorderBrush="{DynamicResource BorderColor3}" BorderThickness="1" CornerRadius="2">
+					<ListBoxItem Content="General" />
+				</ListBox>
+
+				<TabControl Grid.Column="2" SelectedIndex="{Binding SelectedIndex, ElementName=TabList}">
+					<TabControl.Template>
+						<ControlTemplate>
+							<DockPanel>
+
+								<ItemsPresenter
+									Name="PART_ItemsPresenter"
+									ItemsPanel="{TemplateBinding ItemsPanel}" 
+									IsVisible="False"/>
+
+								<ScrollViewer 
+									HorizontalScrollBarVisibility="Disabled" 
+									VerticalScrollBarVisibility="Auto"
+									AllowAutoHide="False">
+									
+									<ContentPresenter
+										Name="PART_SelectedContentHost"
+										Margin="{TemplateBinding Padding}"
+										HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+										VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+										Content="{TemplateBinding SelectedContent}"
+										ContentTemplate="{TemplateBinding SelectedContentTemplate}" />
+									
+								</ScrollViewer>
+
+							</DockPanel>
+						</ControlTemplate>
+					</TabControl.Template>
+					
+					<TabItem>
+						<settings:UcSettingsGeneral/>
+					</TabItem>
+				
+				</TabControl>
+			</Grid>
+			
+		</Grid>
+		
+	</Border>
+
+</j113da:Window>

@@ -1,0 +1,42 @@
+<Window
+	xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:local="using:HedgeDev.Editor.Material.Views.Windows"
+	xmlns:d3d11="using:HedgeDev.Editor.Material.Controls.D3D11"
+	xmlns:vm="using:HedgeDev.Editor.Material.ViewModels"
+	xmlns:info="using:HedgeDev.Editor.Material.Views.Info"
+	xmlns:toolbar="using:HedgeDev.Editor.Material.Views.Toolbar"
+	xmlns:editors="using:HedgeDev.Editor.Material.Views.Editors"
+	xmlns:converters="using:Avalonia.Data.Converters"
+    mc:Ignorable="d" d:DesignWidth="650" d:DesignHeight="400"
+	Width="650" Height="700"
+    x:Class="HedgeDev.Editor.Material.Views.Windows.WndMain"
+	x:ClassModifier="internal"
+	x:DataType="vm:MainViewModel"
+    Title="HedgeMatEdit"
+	Icon="/Assets/Icon24x.png"
+	Loaded="OnLoaded">
+
+	<Grid>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="auto"/>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="auto"/>
+		</Grid.RowDefinitions>
+
+		<toolbar:UcMenuBar
+			Name="MenuBar"/>
+
+		<Border
+			Grid.Row="1" 
+			Margin="0 0 0 4">
+
+			<editors:UcMaterialEditor />
+		</Border>
+		
+		<toolbar:UcInfoBar Grid.Row="2"/>
+	</Grid>
+	
+</Window>

@@ -1,0 +1,52 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		
+		<ApplicationIcon>Assets\Icon.ico</ApplicationIcon>
+		<RootNamespace>HedgeDev.Editor.Material</RootNamespace>
+		<AssemblyName>HedgeMatEdit</AssemblyName>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Title>HedgeMatEdit</Title>
+		<Authors>Hedge-dev</Authors>
+		<Company>Hedge-dev</Company>
+		<Product>HedgeMatEdit</Product>
+		<Version>1.0.0</Version>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'Release'">
+		<DebugType>embedded</DebugType>
+	</PropertyGroup>
+
+	<PropertyGroup Label="Avalonia">
+		<AvaloniaXamlIlDebuggerLaunch>False</AvaloniaXamlIlDebuggerLaunch>
+		<AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<AvaloniaResource Include="Assets\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="All"/>
+		
+		<PackageReference Include="Avalonia" Version="11.3.4" />
+		<PackageReference Include="Avalonia.Desktop" Version="11.3.4" />
+		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.4" />
+		
+		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
+		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.3.4" />
+		
+		<PackageReference Include="J113D.Common" Version="1.0.0" />
+		<PackageReference Include="J113D.UndoRedo" Version="1.0.0" />
+		<PackageReference Include="TextCopy" Version="6.2.1" />
+		<PackageReference Include="J113D.Avalonia" Version="1.1.0" />
+
+		<PackageReference Include="SharpNeedle" Version="0.1.39" />
+	</ItemGroup>
+
+</Project>

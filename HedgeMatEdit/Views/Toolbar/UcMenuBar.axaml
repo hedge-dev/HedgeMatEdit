@@ -1,0 +1,84 @@
+<UserControl
+	xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="40"
+    x:Class="HedgeDev.Editor.Material.Views.Toolbar.UcMenuBar"
+	x:ClassModifier="internal"
+	Name="MenuBarRoot">
+
+	<Grid ColumnDefinitions="auto,*">
+		
+		
+		<Menu Margin="0 0 0 6">
+			<MenuItem Header="File">
+				<MenuItem Header="New Material" Click="OnNewMaterial" InputGesture="Ctrl+N" HotKey="Ctrl+N">
+					<MenuItem.Icon>
+						<Image Source="avares://J113D.Avalonia/Icons/NewFile.png"/>
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="Open Material" Click="OnOpenMaterial" InputGesture="Ctrl+O" HotKey="Ctrl+O">
+					<MenuItem.Icon>
+						<Image Source="avares://J113D.Avalonia/Icons/OpenFile.png"/>
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="Save Material" Click="OnSaveMaterial" InputGesture="Ctrl+S" HotKey="Ctrl+S">
+					<MenuItem.Icon>
+						<Image Source="avares://J113D.Avalonia/Icons/Save.png"/>
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="Save Material As" Click="OnSaveMaterialAs" InputGesture="Ctrl+Shift+S" HotKey="Ctrl+Shift+S">
+					<MenuItem.Icon>
+						<Image Source="avares://J113D.Avalonia/Icons/SaveAs.png"/>
+					</MenuItem.Icon>
+				</MenuItem>
+				<Separator/>
+				<MenuItem Header="Json">
+					<MenuItem.Icon>
+						<Image Source="avares://HedgeMatEdit/Assets/JSONScript.png"/>
+					</MenuItem.Icon>
+
+					<MenuItem Header="Export Json" Click="OnExportJson" InputGesture="Ctrl+E" HotKey="Ctrl+E">
+						<MenuItem.Icon>
+							<Image Source="avares://J113D.Avalonia/Icons/ExportFile.png"/>
+						</MenuItem.Icon>
+					</MenuItem>
+					<MenuItem Header="Export Json to Clipboard" Click="OnExportJsonToClipboard" InputGesture="Ctrl+Shift+E" HotKey="Ctrl+Shift+E"/>
+					<Separator/>
+					<MenuItem Header="Import Json" Click="OnImportJson" InputGesture="Ctrl+I" HotKey="Ctrl+I">
+						<MenuItem.Icon>
+							<Image Source="avares://J113D.Avalonia/Icons/ImportFile.png"/>
+						</MenuItem.Icon>
+					</MenuItem>
+					<MenuItem Header="Import Json from Clipboard" Click="OnImportJsonFromClipboard" InputGesture="Ctrl+Shift+I" HotKey="Ctrl+Shift+I"/>
+				</MenuItem>
+			</MenuItem>
+			<MenuItem Header="Edit">
+				<MenuItem Header="Undo" Click="OnUndo" InputGesture="Ctrl+Z" HotKey="Ctrl+Z">
+					<MenuItem.Icon>
+						<Image Source="avares://J113D.Avalonia/Icons/Undo.png"/>
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="Redo" Click="OnRedo" InputGesture="Ctrl+Y" HotKey="Ctrl+Y">
+					<MenuItem.Icon>
+						<Image Source="avares://J113D.Avalonia/Icons/Redo.png"/>
+					</MenuItem.Icon>
+				</MenuItem>
+			</MenuItem>
+			<MenuItem Header="Settings" Click="OnSettingsOpen"/>
+		</Menu>
+
+		<TextBlock
+			Name="OpenFilename"
+			Grid.Column="1" 
+			VerticalAlignment="Center"
+			HorizontalAlignment="Right"
+			Padding="0 0 8 0"
+			Foreground="{DynamicResource ForegroundColor3}"
+			TextTrimming="CharacterEllipsis"
+			Text="{Binding #MenuBarRoot.DisplayFilename}"/>	
+		
+	</Grid>
+
+</UserControl>

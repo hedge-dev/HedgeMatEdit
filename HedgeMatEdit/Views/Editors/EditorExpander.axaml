@@ -1,0 +1,111 @@
+<ResourceDictionary
+	xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+	<ControlTheme
+		x:Key="EditorExpanderToggleButtonTheme"
+		TargetType="ToggleButton"
+		BasedOn="{StaticResource {x:Type Button}}">
+
+		<Setter Property="HorizontalContentAlignment" Value="Stretch" />
+		<Setter Property="Background" Value="Transparent" />
+		<Setter Property="Padding" Value="0 5 8 6" />
+
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Grid ColumnDefinitions="Auto,Auto,*">
+					<Border
+						Grid.ColumnSpan="3"
+						Background="{TemplateBinding Background}"
+						CornerRadius="3"/>
+
+					<Border
+						Grid.Column="0"
+						Padding="16 0 6 0"
+						HorizontalAlignment="Center"
+						VerticalAlignment="Center">
+
+						<Path
+							HorizontalAlignment="Center"
+							VerticalAlignment="Center"
+							Data="m0 6.684v-5.64a1.044 1.044 90 011.56-.9l4.896 2.82a1.044 1.044 90 010 1.8l-4.896 2.82a1.044 1.044 90 01-1.56-.9z"
+							Fill="{TemplateBinding Foreground}" />
+					</Border>
+
+					<ContentPresenter
+						Name="PART_ContentPresenter"
+						Grid.Column="1"
+						Padding="{TemplateBinding Padding}"
+						VerticalAlignment="Center"
+						HorizontalContentAlignment="Center"
+						VerticalContentAlignment="Center"
+						Content="{TemplateBinding Content}"
+						ContentTemplate="{Binding $parent[Expander].HeaderTemplate}" />
+
+				</Grid>
+			</ControlTemplate>
+		</Setter>
+	</ControlTheme>
+
+	<ControlTheme
+		x:Key="EditorExpanderToggleButtonDownTheme"
+		BasedOn="{StaticResource EditorExpanderToggleButtonTheme}"
+		TargetType="ToggleButton">
+
+		<Style Selector="^ /template/ Path">
+			<Setter Property="RenderTransform">
+				<RotateTransform Angle="90" />
+			</Setter>
+		</Style>
+	</ControlTheme>
+
+	<ControlTheme
+		x:Key="EditorExpanderToggleButtonRightTheme"
+		BasedOn="{StaticResource EditorExpanderToggleButtonTheme}"
+		TargetType="ToggleButton">
+
+		<Style Selector="^ /template/ Path">
+			<Setter Property="RenderTransform">
+				<RotateTransform Angle="0" />
+			</Setter>
+		</Style>
+	</ControlTheme>
+
+	<ControlTheme x:Key="EditorExpander"
+				  TargetType="Expander">
+
+		<Setter Property="Template">
+			<ControlTemplate>
+				<Border
+					Background="{TemplateBinding Background}"
+					CornerRadius="{TemplateBinding CornerRadius}">
+
+					<Grid RowDefinitions="Auto,*">
+						<ToggleButton Name="PART_toggle"
+										Grid.Row="0"
+										HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+										VerticalAlignment="{TemplateBinding VerticalAlignment}"
+										Content="{TemplateBinding Header}"
+										IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
+										Theme="{StaticResource EditorExpanderToggleButtonRightTheme}" />
+
+						<ContentPresenter Name="PART_ContentPresenter"
+											Grid.Row="1"
+											Padding="{TemplateBinding Padding}"
+											HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+											VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+											Content="{TemplateBinding Content}"
+											ContentTemplate="{TemplateBinding ContentTemplate}"
+											IsVisible="{TemplateBinding IsExpanded}" />
+					</Grid>
+				</Border>
+			</ControlTemplate>
+		</Setter>
+
+		<Style Selector="^:expanded /template/ ToggleButton#PART_toggle">
+			<Setter Property="Theme" Value="{StaticResource EditorExpanderToggleButtonDownTheme}" />
+		</Style>
+
+	</ControlTheme>
+	
+</ResourceDictionary>
