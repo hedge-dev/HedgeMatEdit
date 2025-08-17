@@ -1,6 +1,7 @@
 ﻿using HedgeDev.Editor.Material.Config;
 using HEIO.NET.Json;
 using SharpNeedle.IO;
+using SharpNeedle.Resource;
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -52,6 +53,7 @@ namespace HedgeDev.Editor.Material.ViewModels
         {
             HEMaterial material = new();
             material.Read(file);
+            material.ResolveDependencies(new DirectoryResourceResolver(file.Parent));
             Material = new(material);
         }
 
