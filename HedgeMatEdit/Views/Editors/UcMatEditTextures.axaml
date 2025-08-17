@@ -24,7 +24,7 @@
 		<StyleInclude Source="avares://HedgeMatEdit/Views/Editors/EditorStyles.axaml"/>
 	</UserControl.Styles>
 
-	<Expander Header="Texture Parameters">
+	<Expander Header="Textures">
 
 		<Grid ColumnDefinitions="3.5*,5*,2*,3*,3*">
 
