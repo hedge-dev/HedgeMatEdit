@@ -64,7 +64,9 @@ namespace HedgeDev.Editor.Material.ViewModels
                 throw new InvalidOperationException("No material data");
             }
 
-            Material.GetWriteMaterial(Path.GetFileNameWithoutExtension(file.Name)).Write(file);
+            HEMaterial material = Material.GetWriteMaterial(Path.GetFileNameWithoutExtension(file.Name));
+            material.Write(file);
+            material.WriteDependencies(file.Parent);
         }
     
         public string ExportJson(string filename)
