@@ -22,21 +22,21 @@ namespace HedgeDev.Editor.Material.ViewModels.Parameter
         public string Y
         {
             get => _y;
-            set => UpdateVectorValue(value, _y, nameof(_y), nameof(Y), 0);
+            set => UpdateVectorValue(value, _y, nameof(_y), nameof(Y), 1);
         }
 
         [FloatTextValidation]
         public string Z
         {
             get => _z;
-            set => UpdateVectorValue(value, _z, nameof(_z), nameof(Z), 0);
+            set => UpdateVectorValue(value, _z, nameof(_z), nameof(Z), 2);
         }
 
         [FloatTextValidation]
         public string W
         {
             get => _w;
-            set => UpdateVectorValue(value, _w, nameof(_w), nameof(W), 0);
+            set => UpdateVectorValue(value, _w, nameof(_w), nameof(W), 3);
         }
 
         public FloatParameterViewModel(MaterialParameter<Vector4> data, ParametersViewModel<Vector4> parent, string name)
