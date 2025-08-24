@@ -32,7 +32,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="All"/>
+		<PackageReference Include="Octokit" Version="14.0.0" />
+		<PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="All" />
 		
 		<PackageReference Include="Avalonia" Version="11.3.4" />
 		<PackageReference Include="Avalonia.Desktop" Version="11.3.4" />
@@ -46,7 +47,7 @@
 		<PackageReference Include="TextCopy" Version="6.2.1" />
 		<PackageReference Include="J113D.Avalonia" Version="1.1.0" />
 
-		<PackageReference Include="SharpNeedle" Version="0.1.39" />
+		<PackageReference Include="SharpNeedle" Version="0.1.40" />
 	</ItemGroup>
 
 </Project>

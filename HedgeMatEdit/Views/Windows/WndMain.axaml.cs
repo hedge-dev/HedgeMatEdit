@@ -1,8 +1,11 @@
 using Avalonia;
 using Avalonia.Controls;
 using J113D.Avalonia.MessageBox;
+using Octokit;
 using PropertyChanged;
 using System;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace HedgeDev.Editor.Material.Views.Windows
 {
@@ -55,21 +58,42 @@ namespace HedgeDev.Editor.Material.Views.Windows
 
         private async void OnLoaded(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
         {
-            if(string.IsNullOrWhiteSpace(InitialFilePath))
+            if(!string.IsNullOrWhiteSpace(InitialFilePath))
             {
-                return;
+                Uri uri = new(InitialFilePath, UriKind.RelativeOrAbsolute);
+                try
+                {
+                    await MenuBar.OnDropFile(uri);
+                }
+                catch(Exception exc)
+                {
+                    await this.MessageBoxDialog("Filepath invalid", $"The file \"{InitialFilePath}\" failed to load:\n{exc.Message}", MessageBoxButtons.Ok, MessageBoxIcon.Error);
+                }
             }
 
-            Uri uri = new(InitialFilePath, UriKind.RelativeOrAbsolute);
             try
             {
-                await MenuBar.OnDropFile(uri);
+                Assembly assembly = Assembly.GetExecutingAssembly();
+                AssemblyName assemblyName = assembly.GetName();
+                string name = assemblyName.Name!;
+                Version version = assemblyName.Version!;
+
+                GitHubClient client = new(new ProductHeaderValue(name, version.ToString()));
+                Release release = await client.Repository.Release.GetLatest("hedge-dev", "HedgeMatEdit");
+
+                Version latestVersion = new(release.TagName);
+
+                if(version < latestVersion)
+                {
+                    MessageBoxResult? result = await this.MessageBoxDialog("New Release", $"Version {release.TagName} is available for download!\nWould you like to visit the download page?", MessageBoxButtons.YesNo, MessageBoxIcon.Info);
+
+                    if(result == MessageBoxResult.Yes)
+                    {
+                        Process.Start("explorer", release.HtmlUrl);
+                    }
+                }
             }
-            catch(Exception exc)
-            {
-                await this.MessageBoxDialog("Filepath invalid", $"The file \"{InitialFilePath}\" failed to load:\n{exc.Message}", MessageBoxButtons.Ok, MessageBoxIcon.Error);
-                return;
-            }
+            catch { }
         }
     }
 }
