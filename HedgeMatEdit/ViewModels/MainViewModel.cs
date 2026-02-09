@@ -1,4 +1,6 @@
 ﻿using HedgeDev.Editor.Material.Config;
+using HedgeDev.Editor.Material.ViewModels.Base;
+using HedgeDev.Editor.Material.ViewModels.Resource;
 using HEIO.NET.Json;
 using SharpNeedle.IO;
 using SharpNeedle.Resource;

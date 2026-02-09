@@ -35,19 +35,19 @@
 		<PackageReference Include="Octokit" Version="14.0.0" />
 		<PackageReference Include="PropertyChanged.Fody" Version="4.1.0" PrivateAssets="All" />
 		
-		<PackageReference Include="Avalonia" Version="11.3.4" />
-		<PackageReference Include="Avalonia.Desktop" Version="11.3.4" />
-		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.4" />
+		<PackageReference Include="Avalonia" Version="11.3.11" />
+		<PackageReference Include="Avalonia.Desktop" Version="11.3.11" />
+		<PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.11" />
 		
 		<!--Condition below is needed to remove Avalonia.Diagnostics package from build output in Release configuration.-->
-		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.3.4" />
+		<PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.3.11" />
 		
-		<PackageReference Include="J113D.Common" Version="1.0.0" />
+		<PackageReference Include="J113D.Common" Version="1.1.0" />
 		<PackageReference Include="J113D.UndoRedo" Version="1.0.0" />
 		<PackageReference Include="TextCopy" Version="6.2.1" />
 		<PackageReference Include="J113D.Avalonia" Version="1.1.0" />
 
-		<PackageReference Include="SharpNeedle" Version="0.1.40" />
+		<PackageReference Include="SharpNeedle" Version="0.1.43" />
 	</ItemGroup>
 
 </Project>

@@ -2,7 +2,7 @@
 using SharpNeedle.Structs;
 using System.Collections.Generic;
 
-namespace HedgeDev.Editor.Material.ViewModels.Parameter
+namespace HedgeDev.Editor.Material.ViewModels.Resource.Parameter
 {
     internal class IntParametersViewModel : ParametersViewModel<Vector4Int>
     {

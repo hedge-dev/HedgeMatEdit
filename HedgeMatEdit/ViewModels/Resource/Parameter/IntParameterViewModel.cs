@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Numerics;
 using static J113D.UndoRedo.GlobalChangeTracker;
 
-namespace HedgeDev.Editor.Material.ViewModels.Parameter
+namespace HedgeDev.Editor.Material.ViewModels.Resource.Parameter
 {
     internal class IntParameterViewModel : ParameterViewModel<Vector4Int>
     {

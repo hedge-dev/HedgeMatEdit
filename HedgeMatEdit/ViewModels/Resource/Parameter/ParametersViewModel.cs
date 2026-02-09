@@ -1,11 +1,12 @@
-﻿using J113D.UndoRedo.Collections;
+﻿using HedgeDev.Editor.Material.ViewModels.Base;
+using J113D.UndoRedo.Collections;
 using SharpNeedle.Framework.HedgehogEngine.Mirage.MaterialData;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using static J113D.UndoRedo.GlobalChangeTracker;
 
-namespace HedgeDev.Editor.Material.ViewModels.Parameter
+namespace HedgeDev.Editor.Material.ViewModels.Resource.Parameter
 {
 
     internal abstract class ParametersViewModel<V> : ViewModelBase where V : unmanaged

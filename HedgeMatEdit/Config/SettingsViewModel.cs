@@ -1,4 +1,5 @@
-﻿using HedgeDev.Editor.Material.ViewModels;
+﻿using HedgeDev.Editor.Material.ViewModels.Base;
+using HedgeDev.Editor.Material.ViewModels.Resource;
 using J113D.Avalonia.Theme;
 using J113D.Avalonia.Utilities.Enum;
 using System;

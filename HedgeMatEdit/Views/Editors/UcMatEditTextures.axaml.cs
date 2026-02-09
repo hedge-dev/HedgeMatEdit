@@ -1,7 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Platform.Storage;
-using HedgeDev.Editor.Material.ViewModels;
+using HedgeDev.Editor.Material.ViewModels.Resource.Texture;
 using PropertyChanged;
 using System.Collections.Generic;
 using System.IO;

@@ -1,10 +1,11 @@
-﻿using J113D.UndoRedo.Collections;
+﻿using HedgeDev.Editor.Material.ViewModels.Base;
+using J113D.UndoRedo.Collections;
 using SharpNeedle.Framework.HedgehogEngine.Mirage;
 using System.Collections.ObjectModel;
 using System.Linq;
 using static J113D.UndoRedo.GlobalChangeTracker;
 
-namespace HedgeDev.Editor.Material.ViewModels
+namespace HedgeDev.Editor.Material.ViewModels.Resource.SampleChunk
 {
     internal class SCAParametersViewModel : ViewModelBase
     {

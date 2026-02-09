@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace HedgeDev.Editor.Material.ViewModels
+namespace HedgeDev.Editor.Material.ViewModels.Resource.SampleChunk
 {
     internal enum SCAParameterType
     {

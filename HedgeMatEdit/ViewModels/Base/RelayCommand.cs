@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace HedgeDev.Editor.Material.ViewModels
+namespace HedgeDev.Editor.Material.ViewModels.Base
 {
     internal class RelayCommand : ICommand
     {

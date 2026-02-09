@@ -1,15 +1,16 @@
-﻿using J113D.UndoRedo.Collections;
+﻿using HedgeDev.Editor.Material.ViewModels.Base;
+using J113D.UndoRedo.Collections;
 using SharpNeedle.Framework.HedgehogEngine.Mirage.MaterialData;
 using System.Collections.ObjectModel;
 using System.Linq;
 using static J113D.UndoRedo.GlobalChangeTracker;
 
-namespace HedgeDev.Editor.Material.ViewModels
+namespace HedgeDev.Editor.Material.ViewModels.Resource.Texture
 {
     internal class TextureSetViewModel : ViewModelBase
     {
         private readonly Texset _data;
-        private readonly TrackList<Texture> _dataList;
+        private readonly TrackList<SharpNeedle.Framework.HedgehogEngine.Mirage.MaterialData.Texture> _dataList;
         private readonly TrackList<TextureViewModel> _textures;
 
         public ReadOnlyObservableCollection<TextureViewModel> Textures { get; }
@@ -30,7 +31,7 @@ namespace HedgeDev.Editor.Material.ViewModels
         {
             BeginChangeGroup("TextureSetViewModel.AddNewTexture");
 
-            Texture texture = new()
+            SharpNeedle.Framework.HedgehogEngine.Mirage.MaterialData.Texture texture = new()
             {
                 Type = "diffuse"
             };

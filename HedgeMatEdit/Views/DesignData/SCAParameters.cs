@@ -1,4 +1,4 @@
-﻿using HedgeDev.Editor.Material.ViewModels;
+﻿using HedgeDev.Editor.Material.ViewModels.Resource.SampleChunk;
 using SharpNeedle.Framework.HedgehogEngine.Mirage;
 
 namespace HedgeDev.Editor.Material.Views.DesignData

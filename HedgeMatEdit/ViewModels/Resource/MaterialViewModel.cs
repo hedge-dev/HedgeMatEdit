@@ -1,4 +1,7 @@
-﻿using HedgeDev.Editor.Material.ViewModels.Parameter;
+﻿using HedgeDev.Editor.Material.ViewModels.Base;
+using HedgeDev.Editor.Material.ViewModels.Resource.Parameter;
+using HedgeDev.Editor.Material.ViewModels.Resource.SampleChunk;
+using HedgeDev.Editor.Material.ViewModels.Resource.Texture;
 using J113D.Avalonia.Utilities.Enum;
 using SharpNeedle.Framework.HedgehogEngine.Mirage;
 using SharpNeedle.Framework.HedgehogEngine.Mirage.MaterialData;
@@ -8,7 +11,7 @@ using System.Globalization;
 using System.Linq;
 using static J113D.UndoRedo.GlobalChangeTracker;
 
-namespace HedgeDev.Editor.Material.ViewModels
+namespace HedgeDev.Editor.Material.ViewModels.Resource
 {
     internal class MaterialViewModel : ViewModelBase
     {
@@ -265,7 +268,7 @@ namespace HedgeDev.Editor.Material.ViewModels
 
             result.Texset.Name = exportName;
 
-            foreach(Texture texture in _data.Texset.Textures)
+            foreach(SharpNeedle.Framework.HedgehogEngine.Mirage.MaterialData.Texture texture in _data.Texset.Textures)
             {
                 result.Texset.Textures.Add(new()
                 {

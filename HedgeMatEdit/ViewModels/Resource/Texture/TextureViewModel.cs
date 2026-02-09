@@ -4,12 +4,14 @@ using static J113D.UndoRedo.GlobalChangeTracker;
 using System.Globalization;
 using J113D.Avalonia.Utilities.Enum;
 using System.Linq;
+using HedgeDev.Editor.Material.ViewModels.Base;
+using SNTexture = SharpNeedle.Framework.HedgehogEngine.Mirage.MaterialData.Texture;
 
-namespace HedgeDev.Editor.Material.ViewModels
+namespace HedgeDev.Editor.Material.ViewModels.Resource.Texture
 {
     internal class TextureViewModel : ViewModelBase
     {
-        internal readonly Texture _data;
+        internal readonly SNTexture _data;
         private readonly TextureSetViewModel _parent;
 
         private string _texcoordIndex;
@@ -27,7 +29,7 @@ namespace HedgeDev.Editor.Material.ViewModels
                 }
 
                 BeginChangeGroup("TextureViewModel.Type");
-                TrackPropertyChange(_data, nameof(Texture.Type), value);
+                TrackPropertyChange(_data, nameof(SNTexture.Type), value);
                 this.AddChangeGroupInvokePropertyChanged(nameof(Type));
                 EndChangeGroup();
             }
@@ -44,7 +46,7 @@ namespace HedgeDev.Editor.Material.ViewModels
                 }
 
                 BeginChangeGroup("TextureViewModel.PictureName");
-                TrackPropertyChange(_data, nameof(Texture.PictureName), value);
+                TrackPropertyChange(_data, nameof(SNTexture.PictureName), value);
                 this.AddChangeGroupInvokePropertyChanged(nameof(PictureName));
                 EndChangeGroup();
             }
@@ -73,7 +75,7 @@ namespace HedgeDev.Editor.Material.ViewModels
 
                     if(byteValue != _data.TexCoordIndex)
                     {
-                        TrackPropertyChange(_data, nameof(Texture.TexCoordIndex), byteValue);
+                        TrackPropertyChange(_data, nameof(SNTexture.TexCoordIndex), byteValue);
                     }
                 }
                 finally
@@ -95,7 +97,7 @@ namespace HedgeDev.Editor.Material.ViewModels
                 }
 
                 BeginChangeGroup("TextureViewModel.WrapModeU");
-                TrackPropertyChange(_data, nameof(Texture.WrapModeU), dataValue);
+                TrackPropertyChange(_data, nameof(SNTexture.WrapModeU), dataValue);
                 this.AddChangeGroupInvokePropertyChanged(nameof(WrapModeU));
                 EndChangeGroup();
             }
@@ -113,13 +115,13 @@ namespace HedgeDev.Editor.Material.ViewModels
                 }
 
                 BeginChangeGroup("TextureViewModel.WrapModeV");
-                TrackPropertyChange(_data, nameof(Texture.WrapModeV), dataValue);
+                TrackPropertyChange(_data, nameof(SNTexture.WrapModeV), dataValue);
                 this.AddChangeGroupInvokePropertyChanged(nameof(WrapModeV));
                 EndChangeGroup();
             }
         }
 
-        public TextureViewModel(Texture data, TextureSetViewModel parent)
+        public TextureViewModel(SNTexture data, TextureSetViewModel parent)
         {
             _data = data;
             _parent = parent;

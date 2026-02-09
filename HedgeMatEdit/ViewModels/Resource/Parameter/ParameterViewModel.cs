@@ -1,8 +1,9 @@
-﻿using SharpNeedle.Framework.HedgehogEngine.Mirage.MaterialData;
+﻿using HedgeDev.Editor.Material.ViewModels.Base;
+using SharpNeedle.Framework.HedgehogEngine.Mirage.MaterialData;
 using System;
 using static J113D.UndoRedo.GlobalChangeTracker;
 
-namespace HedgeDev.Editor.Material.ViewModels.Parameter
+namespace HedgeDev.Editor.Material.ViewModels.Resource.Parameter
 {
     internal abstract class ParameterViewModel<T> : ViewModelBase where T : unmanaged
     {

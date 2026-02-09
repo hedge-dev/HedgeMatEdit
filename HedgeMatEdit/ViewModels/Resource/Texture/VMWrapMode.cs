@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace HedgeDev.Editor.Material.ViewModels
+namespace HedgeDev.Editor.Material.ViewModels.Resource.Texture
 {
     internal enum VMWrapMode : int
     {

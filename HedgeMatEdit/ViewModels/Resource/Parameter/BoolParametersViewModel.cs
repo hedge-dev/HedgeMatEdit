@@ -1,7 +1,7 @@
 ﻿using SharpNeedle.Framework.HedgehogEngine.Mirage.MaterialData;
 using System.Collections.Generic;
 
-namespace HedgeDev.Editor.Material.ViewModels.Parameter
+namespace HedgeDev.Editor.Material.ViewModels.Resource.Parameter
 {
     internal class BoolParametersViewModel : ParametersViewModel<bool>
     {
