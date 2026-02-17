@@ -1,0 +1,73 @@
+<UserControl 
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:editors="using:HedgeDev.Editor.Material.Views.Editors"
+    xmlns:resource="using:HedgeDev.Editor.Material.ViewModels.Resource"
+	xmlns:conv="using:Avalonia.Data.Converters"
+	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+	xmlns:vm="using:HedgeDev.Editor.Material.ViewModels"
+	x:Class="HedgeDev.Editor.Material.Views.Editors.UcMaterialsEditor"
+	x:ClassModifier="internal"
+	x:DataType="vm:MainViewModel">
+
+  <Panel
+		DragDrop.AllowDrop="True"
+		DragDrop.DragEnter="OnDragEnter"
+		DragDrop.DragLeave="OnDragLeave"
+		DragDrop.Drop="OnDrop">
+
+		<Grid ColumnDefinitions="*,auto,*">
+
+			<ListBox 
+				Grid.Column="0" 
+				Background="{DynamicResource BackgroundColor4}"
+				ItemsSource="{Binding Materials}"
+				SelectedItem="{Binding ActiveMaterial}">
+				
+				<ListBox.ItemTemplate>
+					<DataTemplate DataType="{x:Type resource:MaterialViewModel}">
+						<TextBlock Text="{Binding Name}"/>
+					</DataTemplate>
+				</ListBox.ItemTemplate>
+
+			</ListBox>
+
+			<GridSplitter Grid.Column="1"/>
+
+			<Panel Grid.Column="2">
+
+				<editors:UcMaterialEditor 
+					DataContext="{Binding ActiveMaterial}"
+					IsVisible="{Binding Converter={x:Static conv:ObjectConverters.IsNotNull}}"/>
+			</Panel>
+
+
+		</Grid>
+
+
+		<Panel Name="DropOverlay" IsVisible="False">
+
+			<Border
+				CornerRadius="3"
+				Opacity="0.2"
+				Background="{DynamicResource HighlightedAccentColor}"/>
+
+			<Border
+				Background="{DynamicResource BackgroundColor4}"
+				HorizontalAlignment="Center"
+				VerticalAlignment="Center"
+				CornerRadius="6">
+
+				<TextBlock
+					Text="Drop file to load/import"
+					FontWeight="Bold"
+					Padding="8"/>
+			</Border>
+
+
+		</Panel>
+				
+	</Panel>
+</UserControl>

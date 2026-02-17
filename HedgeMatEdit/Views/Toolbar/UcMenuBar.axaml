@@ -69,15 +69,6 @@
 			<MenuItem Header="Settings" Click="OnSettingsOpen"/>
 		</Menu>
 
-		<TextBlock
-			Name="OpenFilename"
-			Grid.Column="1" 
-			VerticalAlignment="Center"
-			HorizontalAlignment="Right"
-			Padding="0 0 8 0"
-			Foreground="{DynamicResource ForegroundColor3}"
-			TextTrimming="CharacterEllipsis"
-			Text="{Binding #MenuBarRoot.DisplayFilename}"/>	
 		
 	</Grid>
 
