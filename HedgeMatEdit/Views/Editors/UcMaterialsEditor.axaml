@@ -39,7 +39,10 @@
 				
 				<ListBox.ItemTemplate>
 					<DataTemplate DataType="{x:Type resource:MaterialViewModel}">
-						<TextBlock Text="{Binding Name}"/>
+						<DockPanel>
+							<TextBlock Text="{Binding Name}"/>
+							<TextBlock DockPanel.Dock="Right" Text="*" IsVisible="{Binding HasDataChanged}"/>
+						</DockPanel>
 					</DataTemplate>
 				</ListBox.ItemTemplate>
 

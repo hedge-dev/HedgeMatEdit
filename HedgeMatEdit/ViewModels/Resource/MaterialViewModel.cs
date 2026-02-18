@@ -166,6 +166,10 @@ namespace HedgeDev.Editor.Material.ViewModels.Resource
         public MaterialViewModel(HEMaterial data)
         {
             ChangeTracker = new();
+            ChangeTracker.AfterReset += UpdateChanged;
+            ChangeTracker.AfterUndo += UpdateChanged;
+            ChangeTracker.AfterRedo += UpdateChanged;
+            ChangeTracker.AfterChangeTracked += UpdateChanged;
             _data = data;
 
             Name = string.IsNullOrEmpty(data.Name) ? "Unnamed" : data.Name;
@@ -197,7 +201,11 @@ namespace HedgeDev.Editor.Material.ViewModels.Resource
             _committedAlphaTresholdText = _alphaTresholdText;
         }
 
-        
+        private void UpdateChanged(ChangeTracker tracker)
+        {
+            InvokePropertyChanged(nameof(HasDataChanged));
+        }
+
         public void CommitSliderValue()
         {
             BeginChangeGroup("MaterialViewModel.CommitSliderValue");
