@@ -13,24 +13,41 @@
 		
 		<Menu Margin="0 0 0 6">
 			<MenuItem Header="File">
-				<MenuItem Header="New Material" Click="OnNewMaterial" InputGesture="Ctrl+N" HotKey="Ctrl+N">
+				<MenuItem Header="New" Click="OnNewMaterial" InputGesture="Ctrl+N" HotKey="Ctrl+N">
 					<MenuItem.Icon>
 						<Image Source="avares://J113D.Avalonia/Icons/NewFile.png"/>
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="Open Material" Click="OnOpenMaterial" InputGesture="Ctrl+O" HotKey="Ctrl+O">
+				<MenuItem Header="Open" Click="OnOpenMaterial" InputGesture="Ctrl+O" HotKey="Ctrl+O">
 					<MenuItem.Icon>
 						<Image Source="avares://J113D.Avalonia/Icons/OpenFile.png"/>
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="Save Material" Click="OnSaveMaterial" InputGesture="Ctrl+S" HotKey="Ctrl+S">
+				<Separator/>
+				<MenuItem Header="Save" Click="OnSaveMaterial" InputGesture="Ctrl+S" HotKey="Ctrl+S">
 					<MenuItem.Icon>
 						<Image Source="avares://J113D.Avalonia/Icons/Save.png"/>
 					</MenuItem.Icon>
 				</MenuItem>
-				<MenuItem Header="Save Material As" Click="OnSaveMaterialAs" InputGesture="Ctrl+Shift+S" HotKey="Ctrl+Shift+S">
+				<MenuItem Header="Save As..." Click="OnSaveMaterialAs" InputGesture="Ctrl+Shift+S" HotKey="Ctrl+Shift+S">
 					<MenuItem.Icon>
 						<Image Source="avares://J113D.Avalonia/Icons/SaveAs.png"/>
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="Save All" Click="OnSaveAllMaterials" InputGesture="Ctrl+Alt+S" HotKey="Ctrl+Alt+S">
+					<MenuItem.Icon>
+						<Image Source="avares://J113D.Avalonia/Icons/SaveAll.png"/>
+					</MenuItem.Icon>
+				</MenuItem>
+				<Separator/>
+				<MenuItem Header="Close" Click="OnCloseMaterial" InputGesture="Ctrl+W" HotKey="Ctrl+W">
+					<MenuItem.Icon>
+						<Image Source="avares://J113D.Avalonia/Icons/Close.png"/>
+					</MenuItem.Icon>
+				</MenuItem>
+				<MenuItem Header="Close All" Click="OnCloseAllMaterials" InputGesture="Ctrl+Shift+W" HotKey="Ctrl+Shift+W">
+					<MenuItem.Icon>
+						<Image Source="avares://J113D.Avalonia/Icons/CloseAll.png"/>
 					</MenuItem.Icon>
 				</MenuItem>
 				<Separator/>

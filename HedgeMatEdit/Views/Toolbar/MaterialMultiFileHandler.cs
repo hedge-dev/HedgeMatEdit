@@ -43,7 +43,7 @@ namespace HedgeDev.Editor.Material.Views.Toolbar
 
         protected override MaterialViewModel InternalLoad(Uri filePath)
         {
-            IFile file = FileSystem.Instance.Create(filePath.LocalPath);
+            IFile file = FileSystem.Instance.Open(filePath.LocalPath)!;
             ViewModel.ReadMaterial(file);
             return ViewModel.ActiveMaterial!;
         }

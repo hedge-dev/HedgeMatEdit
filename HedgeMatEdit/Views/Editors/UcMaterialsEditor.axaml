@@ -18,13 +18,24 @@
 		DragDrop.DragLeave="OnDragLeave"
 		DragDrop.Drop="OnDrop">
 
-		<Grid ColumnDefinitions="*,auto,*">
+		<Grid ColumnDefinitions="*,6,2*">
 
 			<ListBox 
 				Grid.Column="0" 
+				CornerRadius="3"
 				Background="{DynamicResource BackgroundColor4}"
 				ItemsSource="{Binding Materials}"
-				SelectedItem="{Binding ActiveMaterial}">
+				SelectedItem="{Binding ActiveMaterial}"
+				ScrollViewer.AllowAutoHide="False"
+				ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+				ScrollViewer.VerticalScrollBarVisibility="Auto">
+
+				<ListBox.Styles>
+					<Style Selector="ListBoxItem">
+						<Setter Property="Padding" Value="6,3,6,6"/>
+						<Setter Property="CornerRadius" Value="3"/>
+					</Style>
+				</ListBox.Styles>
 				
 				<ListBox.ItemTemplate>
 					<DataTemplate DataType="{x:Type resource:MaterialViewModel}">
@@ -34,12 +45,21 @@
 
 			</ListBox>
 
-			<GridSplitter Grid.Column="1"/>
+			<GridSplitter Grid.Column="1" Background="Transparent"/>
 
-			<Panel Grid.Column="2">
+			<Panel Grid.Column="2" DataContext="{Binding ActiveMaterial}">
+
+				<Border
+					IsVisible="{Binding Converter={x:Static conv:ObjectConverters.IsNull}}">
+					<TextBlock 
+						VerticalAlignment="Center"
+						HorizontalAlignment="Center"
+						Text="No material open" 
+						FontWeight="SemiBold"
+						Foreground="{DynamicResource ForegroundColor3}"/>
+				</Border>
 
 				<editors:UcMaterialEditor 
-					DataContext="{Binding ActiveMaterial}"
 					IsVisible="{Binding Converter={x:Static conv:ObjectConverters.IsNotNull}}"/>
 			</Panel>
 

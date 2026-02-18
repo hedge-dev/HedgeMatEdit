@@ -14,12 +14,13 @@ namespace HedgeDev.Editor.Material.ViewModels
 {
     internal class MainViewModel : ViewModelBase
     {
+        private readonly ObservableCollection<MaterialViewModel> _materials;
         private readonly ChangeTracker _mainChangeTracker;
         private MaterialViewModel? _activeMaterial;
 
         private readonly SettingsViewModel _settings;
 
-        public ObservableCollection<MaterialViewModel> Materials { get; private set; }
+        public ReadOnlyObservableCollection<MaterialViewModel> Materials { get; private set; }
         
         public MaterialViewModel? ActiveMaterial
         {
@@ -36,13 +37,14 @@ namespace HedgeDev.Editor.Material.ViewModels
             _mainChangeTracker = new();
             _mainChangeTracker.UseTracker();
             _settings = settings;
-            Materials = [];
+            _materials = [];
+            Materials = new(_materials);
         }
 
         private void AddAsActive(HEMaterial material)
         {
             MaterialViewModel viewmodel = new(material);
-            Materials.Add(viewmodel);
+            _materials.Add(viewmodel);
             ActiveMaterial = viewmodel;
         }
 
@@ -78,6 +80,45 @@ namespace HedgeDev.Editor.Material.ViewModels
             material.ResolveDependencies(new DirectoryResourceResolver(file.Parent));
 
             AddAsActive(material);
+        }
+
+        public void RemoveActiveMaterial()
+        {
+            if(ActiveMaterial == null)
+            {
+                return;
+            }
+
+            MaterialViewModel active = ActiveMaterial;
+
+            if(Materials.Count == 1)
+            {
+                ActiveMaterial = null;
+                _materials.Remove(active);
+            }
+            else
+            {
+                int index = Materials.IndexOf(active);
+
+                if(index == Materials.Count - 1)
+                {
+                    index--;
+                }
+                else
+                {
+                    index++;
+                }
+
+                ActiveMaterial = Materials[index];
+            }
+
+            _materials.Remove(active);
+        }
+
+        public void ClearMaterials()
+        {
+            ActiveMaterial = null;
+            _materials.Clear();
         }
 
         public string ExportJson(string filename)

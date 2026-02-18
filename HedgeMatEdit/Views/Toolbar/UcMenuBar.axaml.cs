@@ -1,8 +1,10 @@
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using HedgeDev.Editor.Material.ViewModels;
+using HedgeDev.Editor.Material.ViewModels.Resource;
 using HedgeDev.Editor.Material.Views.Windows;
 using J113D.Avalonia.MessageBox;
+using J113D.Avalonia.Utilities.IO;
 using PropertyChanged;
 using System;
 using System.IO;
@@ -25,9 +27,21 @@ namespace HedgeDev.Editor.Material.Views.Toolbar
         {
             _materialFileHander = new(this);
             _jsonFileHandler = new(this, _materialFileHander);
+            _materialFileHander.DataUriUpdated += OnDataUriUpdated;
             InitializeComponent();
         }
 
+        private void OnDataUriUpdated(BaseMultiFileHandler<MaterialViewModel> filehandler, MaterialViewModel data, Uri? uri)
+        {
+            if(uri == null)
+            {
+                data.Name = "Unnamed";
+            }
+            else
+            {
+                data.Name = Path.GetFileNameWithoutExtension(uri.LocalPath);
+            }
+        }
 
         public Task<bool> CloseConfirmation()
         {
@@ -59,11 +73,37 @@ namespace HedgeDev.Editor.Material.Views.Toolbar
             await SaveMaterial(true);
         }
 
+        public async void OnSaveAllMaterials(object sender, RoutedEventArgs e)
+        {
+            if (await _materialFileHander.SaveAll())
+            {
+                this.SetMessage("Files saved");
+            }
+        }
+
         private async Task SaveMaterial(bool newPath)
         {
             if (ViewModel.ActiveMaterial != null && await _materialFileHander.Save(ViewModel.ActiveMaterial, newPath))
             {
                 this.SetMessage("File saved");
+            }
+        }
+
+        public async void OnCloseMaterial(object sender, RoutedEventArgs e)
+        {
+            if(ViewModel.ActiveMaterial != null && await _materialFileHander.Close(ViewModel.ActiveMaterial))
+            {
+                ViewModel.RemoveActiveMaterial();
+                this.SetMessage("File closed");
+            }
+        }
+
+        public async void OnCloseAllMaterials(object sender, RoutedEventArgs e)
+        {
+            if (await _materialFileHander.CloseAll())
+            {
+                ViewModel.ClearMaterials();
+                this.SetMessage("Files closed");
             }
         }
 
