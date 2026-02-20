@@ -4,7 +4,7 @@ using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using HedgeDev.Editor.Material.ViewModels.Base;
 using HedgeDev.Editor.Material.Views.Windows;
-using J113D.Avalonia.MessageBox;
+using J113D.Avalonia.Utilities.MessageBox;
 using PropertyChanged;
 
 namespace HedgeDev.Editor.Material.Views.Editors

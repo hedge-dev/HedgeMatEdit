@@ -3,7 +3,7 @@ using Avalonia.Interactivity;
 using HedgeDev.Editor.Material.ViewModels;
 using HedgeDev.Editor.Material.ViewModels.Resource;
 using HedgeDev.Editor.Material.Views.Windows;
-using J113D.Avalonia.MessageBox;
+using J113D.Avalonia.Utilities.MessageBox;
 using J113D.Avalonia.Utilities.IO;
 using PropertyChanged;
 using System;

@@ -1,7 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
 using HedgeDev.Editor.Material.ViewModels;
-using J113D.Avalonia.MessageBox;
+using J113D.Avalonia.Utilities.MessageBox;
 using Octokit;
 using PropertyChanged;
 using System;
