@@ -2,12 +2,15 @@
 using HedgeDev.Editor.Material.ViewModels.Base;
 using HedgeDev.Editor.Material.ViewModels.Resource;
 using HEIO.NET.Json;
+using J113D.Avalonia.Utilities.Collections;
 using J113D.UndoRedo;
 using SharpNeedle.IO;
 using SharpNeedle.Resource;
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 
 namespace HedgeDev.Editor.Material.ViewModels
@@ -17,10 +20,13 @@ namespace HedgeDev.Editor.Material.ViewModels
         private readonly ObservableCollection<MaterialViewModel> _materials;
         private readonly ChangeTracker _mainChangeTracker;
         private MaterialViewModel? _activeMaterial;
+        private MaterialViewModel? _selectedMaterial;
 
         private readonly SettingsViewModel _settings;
 
-        public ReadOnlyObservableCollection<MaterialViewModel> Materials { get; private set; }
+        public ReadOnlyFilteredObservableCollection<MaterialViewModel, string> Materials { get; private set; }
+
+        public RelayCommand ClearFilterCommand { get; }
         
         public MaterialViewModel? ActiveMaterial
         {
@@ -32,13 +38,42 @@ namespace HedgeDev.Editor.Material.ViewModels
             }
         }
 
+        public MaterialViewModel? SelectedMaterial
+        {
+            get => _selectedMaterial;
+            set
+            {
+                _selectedMaterial = value;
+                if(_selectedMaterial != _activeMaterial && _selectedMaterial != null || _materials.Count == 0)
+                {
+                    ActiveMaterial = _selectedMaterial;
+                }
+            }
+        }
+
+
         public MainViewModel(SettingsViewModel settings)
         {
+            ClearFilterCommand = new(ClearFilter);
             _mainChangeTracker = new();
             _mainChangeTracker.UseTracker();
             _settings = settings;
             _materials = [];
-            Materials = new(_materials);
+            Materials = new(_materials, (m, f) => m.Name.Contains(f, StringComparison.CurrentCultureIgnoreCase));
+            ((INotifyPropertyChanged)Materials).PropertyChanged += OnFilterChanged;
+        }
+
+        private void ClearFilter()
+        {
+            Materials.FilterValue = null;
+        }
+
+        private void OnFilterChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if(e.PropertyName == nameof(Materials.FilterValue) && ActiveMaterial != null && Materials.Contains(ActiveMaterial))
+            {
+                SelectedMaterial = ActiveMaterial;
+            }
         }
 
         private void AddAsActive(HEMaterial material)

@@ -6,11 +6,17 @@
 	xmlns:editors="using:HedgeDev.Editor.Material.Views.Editors"
     xmlns:resource="using:HedgeDev.Editor.Material.ViewModels.Resource"
 	xmlns:conv="using:Avalonia.Data.Converters"
+	xmlns:jconv="using:J113D.Avalonia.Converters"
 	mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
 	xmlns:vm="using:HedgeDev.Editor.Material.ViewModels"
 	x:Class="HedgeDev.Editor.Material.Views.Editors.UcMaterialsEditor"
 	x:ClassModifier="internal"
-	x:DataType="vm:MainViewModel">
+	x:DataType="vm:MainViewModel"
+	x:Name="MaterialsEditor">
+
+  <UserControl.Resources>
+	<jconv:EmptyStringToNullConverter x:Key="EmptyStringToNullConverter"/>
+  </UserControl.Resources>
 
   <Panel
 		DragDrop.AllowDrop="True"
@@ -20,33 +26,47 @@
 
 		<Grid ColumnDefinitions="*,6,2*">
 
-			<ListBox 
-				Grid.Column="0" 
-				CornerRadius="3"
-				Background="{DynamicResource BackgroundColor4}"
-				ItemsSource="{Binding Materials}"
-				SelectedItem="{Binding ActiveMaterial}"
-				ScrollViewer.AllowAutoHide="False"
-				ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
-				ScrollViewer.VerticalScrollBarVisibility="Auto">
+			<DockPanel Grid.Column="0" >
 
-				<ListBox.Styles>
-					<Style Selector="ListBoxItem">
-						<Setter Property="Padding" Value="6,3,6,6"/>
-						<Setter Property="CornerRadius" Value="3"/>
-					</Style>
-				</ListBox.Styles>
+				<Border DockPanel.Dock="Top" Margin="0 0 0 6">
+					<TextBox 
+						Watermark="Find..."
+						Text="{Binding Materials.FilterValue, Converter={StaticResource EmptyStringToNullConverter}}"
+						x:Name="SearchTextBox">
+						<TextBox.KeyBindings>
+							<KeyBinding Gesture="Escape" Command="{Binding ClearFilterCommand}"/>
+						</TextBox.KeyBindings>
+					</TextBox>
+				</Border>
 				
-				<ListBox.ItemTemplate>
-					<DataTemplate DataType="{x:Type resource:MaterialViewModel}">
-						<DockPanel>
-							<TextBlock Text="{Binding Name}"/>
-							<TextBlock DockPanel.Dock="Right" Text="*" IsVisible="{Binding HasDataChanged}"/>
-						</DockPanel>
-					</DataTemplate>
-				</ListBox.ItemTemplate>
+				<ListBox 
+					CornerRadius="3"
+					Background="{DynamicResource BackgroundColor4}"
+					ItemsSource="{Binding Materials}"
+					SelectedItem="{Binding SelectedMaterial}"
+					ScrollViewer.AllowAutoHide="False"
+					ScrollViewer.HorizontalScrollBarVisibility="Disabled" 
+					ScrollViewer.VerticalScrollBarVisibility="Auto">
 
-			</ListBox>
+					<ListBox.Styles>
+						<Style Selector="ListBoxItem" x:DataType="{x:Type resource:MaterialViewModel}">
+							<Setter Property="Padding" Value="6,3,6,6"/>
+							<Setter Property="CornerRadius" Value="3"/>
+						</Style>
+					</ListBox.Styles>
+				
+					<ListBox.ItemTemplate>
+						<DataTemplate DataType="{x:Type resource:MaterialViewModel}">
+							<DockPanel>
+								<TextBlock Text="{Binding Name}"/>
+								<TextBlock DockPanel.Dock="Right" Text="*" IsVisible="{Binding HasDataChanged}"/>
+							</DockPanel>
+						</DataTemplate>
+					</ListBox.ItemTemplate>
+
+				</ListBox>
+			</DockPanel>
+
 
 			<GridSplitter Grid.Column="1" Background="Transparent"/>
 
