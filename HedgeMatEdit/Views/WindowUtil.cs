@@ -14,7 +14,7 @@ namespace HedgeDev.Editor.Material.Views
         public static void Undo(this Visual visual)
         {
             WndMain window = (WndMain)TopLevel.GetTopLevel(visual)!;
-            if(App.EditorChangeTracker.Undo())
+            if(window.ViewModel.ActiveMaterial?.ChangeTracker.Undo() == true)
             {
                 window.SetMessage("Performed undo");
             }
@@ -23,7 +23,7 @@ namespace HedgeDev.Editor.Material.Views
         public static void Redo(this Visual visual)
         {
             WndMain window = (WndMain)TopLevel.GetTopLevel(visual)!;
-            if(App.EditorChangeTracker.Redo())
+            if(window.ViewModel.ActiveMaterial?.ChangeTracker.Redo() == true)
             {
                 window.SetMessage("Performed redo");
             }

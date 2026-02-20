@@ -1,4 +1,4 @@
-﻿using HedgeDev.Editor.Material.ViewModels;
+﻿using HedgeDev.Editor.Material.ViewModels.Resource.Texture;
 using SharpNeedle.Framework.HedgehogEngine.Mirage.MaterialData;
 
 namespace HedgeDev.Editor.Material.Views.DesignData

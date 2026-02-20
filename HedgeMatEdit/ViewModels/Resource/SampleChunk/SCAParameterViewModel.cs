@@ -1,4 +1,5 @@
 ﻿using HedgeDev.Editor.Material.Attributes;
+using HedgeDev.Editor.Material.ViewModels.Base;
 using J113D.Avalonia.Utilities.Enum;
 using SharpNeedle.Framework.HedgehogEngine.Mirage;
 using System;
@@ -6,7 +7,7 @@ using System.Globalization;
 using System.Linq;
 using static J113D.UndoRedo.GlobalChangeTracker;
 
-namespace HedgeDev.Editor.Material.ViewModels
+namespace HedgeDev.Editor.Material.ViewModels.Resource.SampleChunk
 {
     internal class SCAParameterViewModel : ViewModelBase
     {

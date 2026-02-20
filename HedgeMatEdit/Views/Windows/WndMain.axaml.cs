@@ -1,6 +1,7 @@
 using Avalonia;
 using Avalonia.Controls;
-using J113D.Avalonia.MessageBox;
+using HedgeDev.Editor.Material.ViewModels;
+using J113D.Avalonia.Utilities.MessageBox;
 using Octokit;
 using PropertyChanged;
 using System;
@@ -24,14 +25,20 @@ namespace HedgeDev.Editor.Material.Views.Windows
         public static readonly DirectProperty<WndMain, MessageType> MessageTypeProperty =
             AvaloniaProperty.RegisterDirect<WndMain, MessageType>(nameof(MessageProperty), o => o._messageType);
 
-        public WndMain()
+        public MainViewModel ViewModel => (MainViewModel)DataContext!;
+
+
+        public WndMain(MainViewModel viewmodel)
         {
+            DataContext = viewmodel;
             InitializeComponent();
         }
 
+        public WndMain() : this(new MainViewModel(new())) { }
+
         public void SetMessage(string message, bool warning)
         {
-            if(_messageType != MessageType.None)
+            if (_messageType != MessageType.None)
             {
                 SetAndRaise(MessageProperty, ref _message, null);
                 SetAndRaise(MessageTypeProperty, ref _messageType, MessageType.None);
@@ -43,10 +50,10 @@ namespace HedgeDev.Editor.Material.Views.Windows
 
         protected override async void OnClosing(WindowClosingEventArgs e)
         {
-            if(!_ignoreResetConfirmation && MenuBar.HasFileChanged)
+            if (!_ignoreResetConfirmation && MenuBar.HasUnsavedChanges)
             {
                 e.Cancel = true;
-                if(await MenuBar.CloseConfirmation())
+                if (await MenuBar.CloseConfirmation())
                 {
                     _ignoreResetConfirmation = true;
                     Close();
@@ -58,14 +65,14 @@ namespace HedgeDev.Editor.Material.Views.Windows
 
         private async void OnLoaded(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
         {
-            if(!string.IsNullOrWhiteSpace(InitialFilePath))
+            if (!string.IsNullOrWhiteSpace(InitialFilePath))
             {
                 Uri uri = new(InitialFilePath, UriKind.RelativeOrAbsolute);
                 try
                 {
                     await MenuBar.OnDropFile(uri);
                 }
-                catch(Exception exc)
+                catch (Exception exc)
                 {
                     await this.MessageBoxDialog("Filepath invalid", $"The file \"{InitialFilePath}\" failed to load:\n{exc.Message}", MessageBoxButtons.Ok, MessageBoxIcon.Error);
                 }
@@ -83,11 +90,11 @@ namespace HedgeDev.Editor.Material.Views.Windows
 
                 Version latestVersion = new(release.TagName);
 
-                if(version < latestVersion)
+                if (version < latestVersion)
                 {
                     MessageBoxResult? result = await this.MessageBoxDialog("New Release", $"Version {release.TagName} is available for download!\nWould you like to visit the download page?", MessageBoxButtons.YesNo, MessageBoxIcon.Info);
 
-                    if(result == MessageBoxResult.Yes)
+                    if (result == MessageBoxResult.Yes)
                     {
                         Process.Start("explorer", release.HtmlUrl);
                     }

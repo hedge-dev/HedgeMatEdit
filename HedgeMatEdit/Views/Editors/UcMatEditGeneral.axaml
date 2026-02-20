@@ -3,7 +3,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:vm="using:HedgeDev.Editor.Material.ViewModels"
+	xmlns:vm="using:HedgeDev.Editor.Material.ViewModels.Resource"
 	xmlns:view="using:HedgeDev.Editor.Material.Views"
 	xmlns:enumUtil="using:J113D.Avalonia.Utilities.Enum"
     mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="300"

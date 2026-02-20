@@ -1,9 +1,9 @@
 ﻿using J113D.Common;
 using J113D.Avalonia.Theme;
 using System.Text.Json;
-using HedgeDev.Editor.Material.ViewModels;
 using System;
 using System.IO;
+using HedgeDev.Editor.Material.ViewModels.Resource;
 
 namespace HedgeDev.Editor.Material.Config
 {

@@ -4,7 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-	xmlns:vm="using:HedgeDev.Editor.Material.ViewModels"
+	xmlns:vm="using:HedgeDev.Editor.Material.ViewModels.Resource.Texture"
 	xmlns:view="using:HedgeDev.Editor.Material.Views"
 	xmlns:dd="using:HedgeDev.Editor.Material.Views.DesignData"
     x:Class="HedgeDev.Editor.Material.Views.Editors.UcMatEditTextures"

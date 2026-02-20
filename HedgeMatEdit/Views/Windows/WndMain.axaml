@@ -4,14 +4,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:local="using:HedgeDev.Editor.Material.Views.Windows"
-	xmlns:d3d11="using:HedgeDev.Editor.Material.Controls.D3D11"
 	xmlns:vm="using:HedgeDev.Editor.Material.ViewModels"
 	xmlns:info="using:HedgeDev.Editor.Material.Views.Info"
 	xmlns:toolbar="using:HedgeDev.Editor.Material.Views.Toolbar"
 	xmlns:editors="using:HedgeDev.Editor.Material.Views.Editors"
 	xmlns:converters="using:Avalonia.Data.Converters"
-    mc:Ignorable="d" d:DesignWidth="650" d:DesignHeight="400"
-	Width="650" Height="700"
+    mc:Ignorable="d" d:DesignWidth="1000" d:DesignHeight="700"
+	Width="1000" Height="700"
     x:Class="HedgeDev.Editor.Material.Views.Windows.WndMain"
 	x:ClassModifier="internal"
 	x:DataType="vm:MainViewModel"
@@ -30,10 +29,11 @@
 			Name="MenuBar"/>
 
 		<Border
-			Grid.Row="1" 
+			Grid.Row="1"
 			Margin="0 0 0 4">
 
-			<editors:UcMaterialEditor />
+			<editors:UcMaterialsEditor />
+
 		</Border>
 		
 		<toolbar:UcInfoBar Grid.Row="2"/>

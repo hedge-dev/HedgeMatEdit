@@ -1,5 +1,5 @@
 using Avalonia.Controls;
-using HedgeDev.Editor.Material.ViewModels;
+using HedgeDev.Editor.Material.ViewModels.Resource;
 using PropertyChanged;
 
 namespace HedgeDev.Editor.Material.Views.Editors

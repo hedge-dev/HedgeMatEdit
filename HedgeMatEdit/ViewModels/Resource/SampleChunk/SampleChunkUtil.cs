@@ -1,7 +1,7 @@
 ﻿using SharpNeedle.Framework.HedgehogEngine.Mirage;
 using System.Linq;
 
-namespace HedgeDev.Editor.Material.ViewModels
+namespace HedgeDev.Editor.Material.ViewModels.Resource.SampleChunk
 {
     internal static class SampleChunkUtil
     {

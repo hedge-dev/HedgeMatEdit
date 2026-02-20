@@ -6,25 +6,16 @@ using J113D.Avalonia.Theme;
 using HedgeDev.Editor.Material.Config;
 using HedgeDev.Editor.Material.Views.Windows;
 using HedgeDev.Editor.Material.ViewModels;
-using J113D.UndoRedo;
-using System;
 
 namespace HedgeDev.Editor.Material
 {
     [DoNotNotify]
     internal partial class App : Application
     {
-        public static ChangeTracker EditorChangeTracker => ((App)Current!).MaterialEditorTracker;
-
-        public ChangeTracker MaterialEditorTracker { get; }
-
         public SettingsViewModel Settings { get; }
 
         public App()
         {
-            MaterialEditorTracker = new();
-            MaterialEditorTracker.UseTracker();
-
             Settings = new();
             Settings.PropertyChanged += OnSettingChanged;
         }
@@ -59,9 +50,8 @@ namespace HedgeDev.Editor.Material
                     filepath = desktop.Args[0];
                 }
 
-                desktop.MainWindow = new WndMain()
+                desktop.MainWindow = new WndMain(new MainViewModel(Settings))
                 {
-                    DataContext = new MainViewModel(Settings),
                     InitialFilePath = filepath
                 };
 

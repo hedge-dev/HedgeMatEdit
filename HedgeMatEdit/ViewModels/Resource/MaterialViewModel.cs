@@ -1,17 +1,25 @@
-﻿using HedgeDev.Editor.Material.ViewModels.Parameter;
+﻿using HedgeDev.Editor.Material.ViewModels.Base;
+using HedgeDev.Editor.Material.ViewModels.Resource.Parameter;
+using HedgeDev.Editor.Material.ViewModels.Resource.SampleChunk;
+using HedgeDev.Editor.Material.ViewModels.Resource.Texture;
+using HEIO.NET.Json;
 using J113D.Avalonia.Utilities.Enum;
+using J113D.Avalonia.Utilities.IO;
+using J113D.UndoRedo;
 using SharpNeedle.Framework.HedgehogEngine.Mirage;
 using SharpNeedle.Framework.HedgehogEngine.Mirage.MaterialData;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text.Json;
 using static J113D.UndoRedo.GlobalChangeTracker;
 
-namespace HedgeDev.Editor.Material.ViewModels
+namespace HedgeDev.Editor.Material.ViewModels.Resource
 {
-    internal class MaterialViewModel : ViewModelBase
+    internal class MaterialViewModel : ViewModelBase, IDataChangeState
     {
+        private ChangeTracker.Pin? _fileChangePin;
         private readonly HEMaterial _data;
 
         private MaterialVersion _version;
@@ -24,12 +32,17 @@ namespace HedgeDev.Editor.Material.ViewModels
         public static EnumDescription[] MaterialVersions = EnumUtils.ToDescriptions<MaterialVersion>().ToArray();
         public static EnumDescription[] MaterialBlendModes = EnumUtils.ToDescriptions<MaterialBlendMode>().ToArray();
 
+        public ChangeTracker ChangeTracker { get; }
+
         public TextureSetViewModel TextureSet { get; }
         public FloatParametersViewModel FloatParameters { get; }
         public IntParametersViewModel IntParameters { get; }
         public BoolParametersViewModel BoolParameters { get; }
         public SCAParametersViewModel SCAParameters { get; }
 
+        public bool HasDataChanged => _fileChangePin != null ? !_fileChangePin.Value.IsValid : ChangeTracker.CanUndo;
+
+        public string Name { get; set; }
 
         public MaterialVersion Version
         {
@@ -154,7 +167,14 @@ namespace HedgeDev.Editor.Material.ViewModels
 
         public MaterialViewModel(HEMaterial data)
         {
+            ChangeTracker = new();
+            ChangeTracker.AfterReset += UpdateChanged;
+            ChangeTracker.AfterUndo += UpdateChanged;
+            ChangeTracker.AfterRedo += UpdateChanged;
+            ChangeTracker.AfterChangeTracked += UpdateChanged;
             _data = data;
+
+            Name = string.IsNullOrEmpty(data.Name) ? "Unnamed" : data.Name;
 
             if(data.Root != null)
             {
@@ -183,7 +203,11 @@ namespace HedgeDev.Editor.Material.ViewModels
             _committedAlphaTresholdText = _alphaTresholdText;
         }
 
-        
+        private void UpdateChanged(ChangeTracker tracker)
+        {
+            InvokePropertyChanged(nameof(HasDataChanged));
+        }
+
         public void CommitSliderValue()
         {
             BeginChangeGroup("MaterialViewModel.CommitSliderValue");
@@ -205,6 +229,42 @@ namespace HedgeDev.Editor.Material.ViewModels
             EndChangeGroup();
         }
     
+        public void ImportJson(string json)
+        {
+            HEMaterial material = JsonSerializer.Deserialize<HEMaterial>(json, JsonConverters.Options)!;
+
+            BeginChangeGroup("MaterialViewModel.ImportJson");
+
+            if (material.Root != null)
+            {
+                Version = MaterialVersion.LostWorldAndNewer;
+            }
+            else if (material.DataVersion > 1)
+            {
+                Version = MaterialVersion.Generations;
+            }
+            else
+            {
+                Version = MaterialVersion.Unleashed;
+            }
+
+            ShaderName = material.ShaderName!;
+            AlphaThreshold = material.AlphaThreshold / (float)byte.MaxValue;
+            NoBackFaceCulling = material.NoBackFaceCulling;
+            BlendMode = material.BlendMode;
+
+
+            TextureSet.FromJsonImport(material.Texset);
+            FloatParameters.FromJsonImport(material.FloatParameters);
+            IntParameters.FromJsonImport(material.IntParameters);
+            BoolParameters.FromJsonImport(material.BoolParameters);
+
+            SampleChunkUtil.EnsureStructure(material, true, out SampleChunkNode? scaParamNode);
+            SCAParameters.FromJsonImport(scaParamNode!);
+
+            EndChangeGroup();
+        }
+
         public HEMaterial GetWriteMaterial(string exportName)
         {
             HEMaterial result = new()
@@ -265,7 +325,7 @@ namespace HedgeDev.Editor.Material.ViewModels
 
             result.Texset.Name = exportName;
 
-            foreach(Texture texture in _data.Texset.Textures)
+            foreach(SharpNeedle.Framework.HedgehogEngine.Mirage.MaterialData.Texture texture in _data.Texset.Textures)
             {
                 result.Texset.Textures.Add(new()
                 {
@@ -281,5 +341,17 @@ namespace HedgeDev.Editor.Material.ViewModels
             return result;
         }
 
+        public void StoreCurrentState(bool clearHistory)
+        {
+            if (clearHistory)
+            {
+                ChangeTracker.Reset();
+                _fileChangePin = null;
+            }
+            else
+            {
+                _fileChangePin = ChangeTracker.PinCurrent();
+            }
+        }
     }
 }

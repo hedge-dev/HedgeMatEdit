@@ -1,4 +1,4 @@
-﻿using HedgeDev.Editor.Material.ViewModels.Parameter;
+﻿using HedgeDev.Editor.Material.ViewModels.Resource.Parameter;
 using SharpNeedle.Framework.HedgehogEngine.Mirage.MaterialData;
 using SharpNeedle.Structs;
 using System.Collections.Generic;

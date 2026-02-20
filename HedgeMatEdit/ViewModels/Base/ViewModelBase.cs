@@ -1,7 +1,7 @@
 ﻿using J113D.UndoRedo;
 using System.ComponentModel;
 
-namespace HedgeDev.Editor.Material.ViewModels
+namespace HedgeDev.Editor.Material.ViewModels.Base
 {
     internal abstract class ViewModelBase : IInvokeNotifyPropertyChanged
     {
