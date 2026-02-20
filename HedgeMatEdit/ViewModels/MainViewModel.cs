@@ -7,6 +7,7 @@ using J113D.UndoRedo;
 using SharpNeedle.IO;
 using SharpNeedle.Resource;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
@@ -129,16 +130,21 @@ namespace HedgeDev.Editor.Material.ViewModels
 
             MaterialViewModel active = ActiveMaterial;
 
-            if(Materials.Count == 1)
+            IList<MaterialViewModel> materialList = Materials.Count <= 1 ? _materials : Materials;
+
+            if(materialList.Count == 1)
             {
                 ActiveMaterial = null;
-                _materials.Remove(active);
             }
             else
             {
-                int index = Materials.IndexOf(active);
+                int index = materialList.IndexOf(active);
 
-                if(index == Materials.Count - 1)
+                if(index == -1)
+                {
+                    index = 0;
+                }
+                else if(index == materialList.Count - 1)
                 {
                     index--;
                 }
@@ -147,7 +153,12 @@ namespace HedgeDev.Editor.Material.ViewModels
                     index++;
                 }
 
-                ActiveMaterial = Materials[index];
+                ActiveMaterial = materialList[index];
+
+                if (Materials.Contains(ActiveMaterial))
+                {
+                    SelectedMaterial = ActiveMaterial;
+                }
             }
 
             _materials.Remove(active);
