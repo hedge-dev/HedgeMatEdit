@@ -2,6 +2,7 @@
 using HedgeDev.Editor.Material.ViewModels.Resource.Parameter;
 using HedgeDev.Editor.Material.ViewModels.Resource.SampleChunk;
 using HedgeDev.Editor.Material.ViewModels.Resource.Texture;
+using HEIO.NET.Json;
 using J113D.Avalonia.Utilities.Enum;
 using J113D.Avalonia.Utilities.IO;
 using J113D.UndoRedo;
@@ -11,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text.Json;
 using static J113D.UndoRedo.GlobalChangeTracker;
 
 namespace HedgeDev.Editor.Material.ViewModels.Resource
@@ -229,7 +231,38 @@ namespace HedgeDev.Editor.Material.ViewModels.Resource
     
         public void ImportJson(string json)
         {
-            throw new NotImplementedException();
+            HEMaterial material = JsonSerializer.Deserialize<HEMaterial>(json, JsonConverters.Options)!;
+
+            BeginChangeGroup("MaterialViewModel.ImportJson");
+
+            if (material.Root != null)
+            {
+                Version = MaterialVersion.LostWorldAndNewer;
+            }
+            else if (material.DataVersion > 1)
+            {
+                Version = MaterialVersion.Generations;
+            }
+            else
+            {
+                Version = MaterialVersion.Unleashed;
+            }
+
+            ShaderName = material.ShaderName!;
+            AlphaThreshold = material.AlphaThreshold / (float)byte.MaxValue;
+            NoBackFaceCulling = material.NoBackFaceCulling;
+            BlendMode = material.BlendMode;
+
+
+            TextureSet.FromJsonImport(material.Texset);
+            FloatParameters.FromJsonImport(material.FloatParameters);
+            IntParameters.FromJsonImport(material.IntParameters);
+            BoolParameters.FromJsonImport(material.BoolParameters);
+
+            SampleChunkUtil.EnsureStructure(material, true, out SampleChunkNode? scaParamNode);
+            SCAParameters.FromJsonImport(scaParamNode!);
+
+            EndChangeGroup();
         }
 
         public HEMaterial GetWriteMaterial(string exportName)

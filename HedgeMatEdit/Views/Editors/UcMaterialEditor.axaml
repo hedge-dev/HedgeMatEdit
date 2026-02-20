@@ -20,7 +20,7 @@
 		
 		<StackPanel 
 			Spacing="6">
-			
+
 			<editor:UcMatEditGeneral/>
 			
 			<editor:UcMatEditTextures

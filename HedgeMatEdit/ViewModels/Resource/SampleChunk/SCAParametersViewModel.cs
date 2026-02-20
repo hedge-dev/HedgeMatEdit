@@ -25,11 +25,10 @@ namespace HedgeDev.Editor.Material.ViewModels.Resource.SampleChunk
             Parameters = new(parameters);
         }
 
-        public void AddNewParameter()
+        private void AddParameter(SampleChunkNode node)
         {
-            BeginChangeGroup("SCAParametersViewModel.AddNewParameter");
+            BeginChangeGroup("SCAParametersViewModel.AddParameter");
 
-            SampleChunkNode node = new("SCAParam");
             SCAParameterViewModel viewmodel = new(node, this);
 
             TrackCallbackChange(
@@ -40,6 +39,11 @@ namespace HedgeDev.Editor.Material.ViewModels.Resource.SampleChunk
             _parameters.Add(viewmodel);
 
             EndChangeGroup();
+        }
+
+        public void AddNewParameter()
+        {
+            AddParameter(new("SCAParam"));
         }
 
         public void RemoveParameter(SCAParameterViewModel parameter)
@@ -54,6 +58,24 @@ namespace HedgeDev.Editor.Material.ViewModels.Resource.SampleChunk
             );
 
             _parameters.Remove(parameter);
+
+            EndChangeGroup();
+        }
+
+        public void FromJsonImport(SampleChunkNode data)
+        {
+            BeginChangeGroup("SCAParametersViewModel.FromJsonImport");
+
+            foreach (SCAParameterViewModel parameter in Parameters.ToArray())
+            {
+                RemoveParameter(parameter);
+            }
+
+            foreach (SampleChunkNode parameter in data.Children.ToArray())
+            {
+                parameter.Detach();
+                AddParameter(parameter);
+            }
 
             EndChangeGroup();
         }

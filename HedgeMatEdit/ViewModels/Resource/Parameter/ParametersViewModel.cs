@@ -48,12 +48,11 @@ namespace HedgeDev.Editor.Material.ViewModels.Resource.Parameter
             EndChangeGroup();
         }
 
-        public void AddNewParameter()
+        private void AddParameter(string name, MaterialParameter<V> parameter)
         {
-            BeginChangeGroup("MaterialParametersViewModel.AddNewParameter");
+            BeginChangeGroup("MaterialParametersViewModel.AddParameter");
 
-            string key = J113D.Common.GenericHelper.FindNextFreeKey(_data, "NewParam");
-            MaterialParameter<V> parameter = new();
+            string key = J113D.Common.GenericHelper.FindNextFreeKey(_data, name);
             ParameterViewModel<V> parameterViewModel = CreateViewmodel(parameter, key);
 
             _data.Add(key, parameter);
@@ -62,12 +61,34 @@ namespace HedgeDev.Editor.Material.ViewModels.Resource.Parameter
             EndChangeGroup();
         }
 
+        public void AddNewParameter()
+        {
+            AddParameter("NewParam", new());
+        }
+
         public void RemoveParameter(ParameterViewModel<V> parameter)
         {
             BeginChangeGroup("MaterialParametersViewModel.RemoveParameter");
 
             _data.Remove(parameter.Name);
             _parameters.Remove(parameter);
+
+            EndChangeGroup();
+        }
+
+        public void FromJsonImport(Dictionary<string, MaterialParameter<V>> parameters)
+        {
+            BeginChangeGroup("ParametersViewModel<V>.FromJsonImport");
+
+            foreach (ParameterViewModel<V> parameter in Parameters.ToArray())
+            {
+                RemoveParameter(parameter);
+            }
+
+            foreach (KeyValuePair<string, MaterialParameter<V>> parameter in parameters)
+            {
+                AddParameter(parameter.Key, parameter.Value);
+            }
 
             EndChangeGroup();
         }

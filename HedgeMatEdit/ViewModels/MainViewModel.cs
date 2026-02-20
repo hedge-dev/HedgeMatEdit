@@ -10,7 +10,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Text.Json;
 
 namespace HedgeDev.Editor.Material.ViewModels
@@ -81,6 +80,10 @@ namespace HedgeDev.Editor.Material.ViewModels
             MaterialViewModel viewmodel = new(material);
             _materials.Add(viewmodel);
             ActiveMaterial = viewmodel;
+            if(Materials.Contains(ActiveMaterial))
+            {
+                SelectedMaterial = ActiveMaterial;
+            }
         }
 
         public void NewMaterial()
@@ -170,6 +173,7 @@ namespace HedgeDev.Editor.Material.ViewModels
         public void ImportJson(string json)
         {
             HEMaterial material = JsonSerializer.Deserialize<HEMaterial>(json, JsonConverters.Options)!;
+            material.Name = string.Empty;
             AddAsActive(material);
         }
 
