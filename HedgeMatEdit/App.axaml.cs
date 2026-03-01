@@ -44,17 +44,10 @@ namespace HedgeDev.Editor.Material
         {
             if(ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
             {
-                string? filepath = null;
-                if(desktop.Args?.Length > 0)
-                {
-                    filepath = desktop.Args[0];
-                }
-
                 desktop.MainWindow = new WndMain(new MainViewModel(Settings))
                 {
-                    InitialFilePath = filepath
+                    InitialFilePaths = desktop.Args?.Length > 0 ? desktop.Args : null
                 };
-
             }
 
             base.OnFrameworkInitializationCompleted();

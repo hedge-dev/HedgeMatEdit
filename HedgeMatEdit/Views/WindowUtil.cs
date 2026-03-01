@@ -11,6 +11,11 @@ namespace HedgeDev.Editor.Material.Views
             ((WndMain)TopLevel.GetTopLevel(visual)!).SetMessage(message, warning);
         }
 
+        public static void ClearMessage(this Visual visual)
+        {
+            ((WndMain)TopLevel.GetTopLevel(visual)!).ClearMessage();
+        }
+
         public static void Undo(this Visual visual)
         {
             WndMain window = (WndMain)TopLevel.GetTopLevel(visual)!;
