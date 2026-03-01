@@ -9,6 +9,8 @@ using PropertyChanged;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace HedgeDev.Editor.Material.Views.Toolbar
 {
@@ -33,7 +35,7 @@ namespace HedgeDev.Editor.Material.Views.Toolbar
 
         private void OnDataUriUpdated(BaseMultiFileHandler<MaterialViewModel> filehandler, MaterialViewModel data, Uri? uri)
         {
-            if(uri == null)
+            if (uri == null)
             {
                 data.Name = "Unnamed";
             }
@@ -57,7 +59,7 @@ namespace HedgeDev.Editor.Material.Views.Toolbar
 
         public async void OnOpenMaterial(object sender, RoutedEventArgs e)
         {
-            if(await _materialFileHander.Open() != null)
+            if (await _materialFileHander.Open() != null)
             {
                 this.SetMessage("File(s) opened");
             }
@@ -91,7 +93,7 @@ namespace HedgeDev.Editor.Material.Views.Toolbar
 
         public async void OnCloseMaterial(object sender, RoutedEventArgs e)
         {
-            if(ViewModel.ActiveMaterial != null && await _materialFileHander.Close(ViewModel.ActiveMaterial))
+            if (ViewModel.ActiveMaterial != null && await _materialFileHander.Close(ViewModel.ActiveMaterial))
             {
                 ViewModel.RemoveActiveMaterial();
                 this.SetMessage("File closed");
@@ -118,7 +120,7 @@ namespace HedgeDev.Editor.Material.Views.Toolbar
 
         public void OnExportJsonToClipboard(object sender, RoutedEventArgs e)
         {
-            if(ViewModel.ActiveMaterial == null)
+            if (ViewModel.ActiveMaterial == null)
             {
                 this.SetMessage("No active material!", false);
                 return;
@@ -153,15 +155,9 @@ namespace HedgeDev.Editor.Material.Views.Toolbar
                 return;
             }
 
-            //if(!await ActiveMaterialFile.FileHandler.ResetConfirmation())
-            //{
-            //    return;
-            //}
-
-
             try
             {
-                if(ViewModel.ActiveMaterial == null)
+                if (ViewModel.ActiveMaterial == null)
                 {
                     ViewModel.ImportJson(clipboard);
                 }
@@ -207,33 +203,69 @@ namespace HedgeDev.Editor.Material.Views.Toolbar
         }
 
 
-        public async Task OnDropFile(Uri filepath)
+        public async Task OnDropFiles(IEnumerable<Uri> filepaths)
         {
-            string extension = Path.GetExtension(filepath.LocalPath).ToLower();
+            int successCount = 0;
+            int invalidCount = 0;
+            List<Exception> fails = [];
 
-            if(extension == ".material")
+            foreach (Uri filepath in filepaths)
             {
-                //if(await ActiveMaterialFile.FileHandler.ResetConfirmation()
-                //    && await ActiveMaterialFile.FileHandler.OpenNoDialog(filepath))
-                //{
-                //    UpdateFilename();
-                //    this.SetMessage("File Opened");
-                //}
+                string extension = Path.GetExtension(filepath.LocalPath).ToLower();
+
+                try
+                {
+                    if (extension == ".material")
+                    {
+                        await _materialFileHander.OpenNoDialog([filepath]);
+                        successCount++;
+                    }
+                    else if (extension == ".json")
+                    {
+                        await _jsonFileHandler.OpenNoDialog(filepath);
+                        successCount++;
+                    }
+                    else
+                    {
+                        invalidCount++;
+                    }
+                }
+                catch (Exception exception)
+                {
+                    fails.Add(exception);
+                }
             }
-            else if(extension == ".json")
+
+            int totalCount = successCount + invalidCount + fails.Count;
+
+            if(invalidCount > 0)
             {
-                //if(await _jsonImportHandler.ResetConfirmation()
-                //    && await _jsonImportHandler.OpenNoDialog(filepath))
-                //{
-                //    ActiveMaterialFile.FileHandler.ForgetFilePath();
-                //    UpdateFilename();
-                //    this.SetMessage("Imported Material from Json");
-                //}
+                WndMain window = (WndMain)TopLevel.GetTopLevel(this)!;
+
+                if(totalCount == 1)
+                {
+                    await window.MessageBoxDialog("Invalid file", $"The file has an invalid format. Please drop a .material or a .json file.", MessageBoxButtons.Ok, MessageBoxIcon.Error);
+                }
+                else
+                {
+                    await window.MessageBoxDialog("Invalid file(s)", $"{invalidCount} file(s) have an invalid format. Please drop a .material or a .json file.", MessageBoxButtons.Ok, MessageBoxIcon.Error);
+                }
+            }
+
+            if(successCount > 0)
+            {
+                if(totalCount == 1)
+                {
+                    this.SetMessage($"Opened file");
+                }
+                else
+                {
+                    this.SetMessage($"Opened {successCount} files");
+                }
             }
             else
             {
-                WndMain window = (WndMain)TopLevel.GetTopLevel(this)!;
-                await window.MessageBoxDialog("Invalid file", "The dropped file has an invalid format. Please drop a .material or a .json file.", MessageBoxButtons.Ok, MessageBoxIcon.Error);
+                this.ClearMessage();
             }
         }
     }

@@ -5,7 +5,9 @@ using J113D.Avalonia.Utilities.MessageBox;
 using Octokit;
 using PropertyChanged;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 
 namespace HedgeDev.Editor.Material.Views.Windows
@@ -17,7 +19,7 @@ namespace HedgeDev.Editor.Material.Views.Windows
         private string? _message;
         private MessageType _messageType;
 
-        public string? InitialFilePath { get; init; }
+        public string[]? InitialFilePaths { get; init; }
 
         public static readonly DirectProperty<WndMain, string?> MessageProperty =
             AvaloniaProperty.RegisterDirect<WndMain, string?>(nameof(MessageProperty), o => o._message);
@@ -40,12 +42,17 @@ namespace HedgeDev.Editor.Material.Views.Windows
         {
             if (_messageType != MessageType.None)
             {
-                SetAndRaise(MessageProperty, ref _message, null);
-                SetAndRaise(MessageTypeProperty, ref _messageType, MessageType.None);
+                ClearMessage();
             }
 
             SetAndRaise(MessageProperty, ref _message, message);
             SetAndRaise(MessageTypeProperty, ref _messageType, warning ? MessageType.Error : MessageType.Success);
+        }
+
+        public void ClearMessage()
+        {
+            SetAndRaise(MessageProperty, ref _message, null);
+            SetAndRaise(MessageTypeProperty, ref _messageType, MessageType.None);
         }
 
         protected override async void OnClosing(WindowClosingEventArgs e)
@@ -65,18 +72,11 @@ namespace HedgeDev.Editor.Material.Views.Windows
 
         private async void OnLoaded(object? sender, Avalonia.Interactivity.RoutedEventArgs e)
         {
-            if (!string.IsNullOrWhiteSpace(InitialFilePath))
+            if(InitialFilePaths?.Length > 0)
             {
-                Uri uri = new(InitialFilePath, UriKind.RelativeOrAbsolute);
-                try
-                {
-                    await MenuBar.OnDropFile(uri);
-                }
-                catch (Exception exc)
-                {
-                    await this.MessageBoxDialog("Filepath invalid", $"The file \"{InitialFilePath}\" failed to load:\n{exc.Message}", MessageBoxButtons.Ok, MessageBoxIcon.Error);
-                }
+                await MenuBar.OnDropFiles(InitialFilePaths.Select(x => new Uri(x, UriKind.RelativeOrAbsolute)));
             }
+
 
             try
             {

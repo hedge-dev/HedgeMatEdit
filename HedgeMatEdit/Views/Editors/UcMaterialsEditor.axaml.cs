@@ -6,6 +6,7 @@ using HedgeDev.Editor.Material.ViewModels.Base;
 using HedgeDev.Editor.Material.Views.Windows;
 using J113D.Avalonia.Utilities.MessageBox;
 using PropertyChanged;
+using System.Linq;
 
 namespace HedgeDev.Editor.Material.Views.Editors
 {
@@ -56,16 +57,7 @@ namespace HedgeDev.Editor.Material.Views.Editors
             }
 
             WndMain window = (WndMain)TopLevel.GetTopLevel(this)!;
-
-            if (files.Length > 1)
-            {
-                await window.MessageBoxDialog("Invalid action", "Dropped too many files, please drop only 1 file", MessageBoxButtons.Ok, MessageBoxIcon.Info);
-                return;
-            }
-
-            await window.MenuBar.OnDropFile(files[0].Path);
-
-
+            await window.MenuBar.OnDropFiles(files.Select(x => x.Path));
         }
     }
 
