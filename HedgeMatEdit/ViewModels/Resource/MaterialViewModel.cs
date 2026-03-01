@@ -352,6 +352,8 @@ namespace HedgeDev.Editor.Material.ViewModels.Resource
             {
                 _fileChangePin = ChangeTracker.PinCurrent();
             }
+
+            InvokePropertyChanged(nameof(HasDataChanged));
         }
     }
 }
